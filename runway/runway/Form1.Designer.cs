@@ -40,6 +40,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.axZKFPEngX1 = new AxZKFPEngXControl.AxZKFPEngX();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.axZKFPEngX1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -151,6 +152,11 @@
             this.axZKFPEngX1.TabIndex = 3;
             this.axZKFPEngX1.OnFingerLeaving += new System.EventHandler(this.axZKFPEngX1_OnFingerLeaving);
             // 
+            // timer2
+            // 
+            this.timer2.Interval = 10000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -190,6 +196,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private AxZKFPEngXControl.AxZKFPEngX axZKFPEngX1;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 

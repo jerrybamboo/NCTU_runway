@@ -13,7 +13,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 
 using System.IO;
-
+using System.Threading;
 
 using Newtonsoft.Json.Linq;
 
@@ -251,7 +251,7 @@ namespace runway
                 // Set the Method property of the request to POST.
                 request.Method = "POST";
                 // Create POST data and convert it to a byte array.
-                string postData = "\"choose\":"+Convert.ToString(choose);
+                string postData = "{\"choose\":"+Convert.ToString(choose)+"}";
                 byte[] byteArray = Encoding.UTF8.GetBytes(postData);
                 // Set the ContentType property of the WebRequest.
                 request.ContentType = "application/json";
@@ -274,7 +274,7 @@ namespace runway
                 StreamReader reader = new StreamReader(dataStream);
                 // Read the content.
                 responseFromServer = reader.ReadLine();
-                
+                user.Text = responseFromServer;
                 // Clean up the streams.
                 reader.Close();
                 dataStream.Close();
@@ -285,7 +285,6 @@ namespace runway
             {
                 throw new Exception("在提取您所要求的" + url + "網頁時發生錯誤。" + "請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:" + ex.Message);
             }
-            
 
 
         }
@@ -295,6 +294,7 @@ namespace runway
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+
             if (!error)
             {
                 //SSR_GetUserTmp()
@@ -389,13 +389,14 @@ namespace runway
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            /*
             if(error)
                 e.Graphics.DrawImage(imageList1.Images[2], max_x / 2 + 400, max_y / 2 - 100, 128, 128);
             else if (stu.result == 0 || stu.result == 1)
                 e.Graphics.DrawImage(imageList1.Images[stu.result], max_x / 2 + 400, max_y / 2 - 50, 128, 128);
             else
                 e.Graphics.DrawImage(imageList1.Images[1], max_x / 2 + 400, max_y / 2 - 50, 128, 128);
-
+            */
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -411,6 +412,8 @@ namespace runway
             timer1.Enabled = true;
 
             finish_choose = true;
+
+            Post("https://runway.nctu.edu.tw/api/check/" + stu.userid);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -426,7 +429,9 @@ namespace runway
             timer1.Enabled = true;
 
             finish_choose = true;
-            
+
+            Post("https://runway.nctu.edu.tw/api/check/" + stu.userid);
+
         }
 
 
@@ -434,10 +439,7 @@ namespace runway
         
         private void axZKFPEngX1_OnFingerLeaving(object sender, EventArgs e)
         {
-            if (error)
-                date.Text = "132";
-            else
-                date.Text = "OK";
+
             if (!error)
             {
                 object oImage = new object();
@@ -467,9 +469,11 @@ namespace runway
                         HttpWebResponse res = req.GetResponse() as HttpWebResponse;
                         using (StreamReader sr = new StreamReader(res.GetResponseStream()))
                         {
+                            
                             Get_ID(JObject.Parse(sr.ReadToEnd()).ToString());
                             if (!error)
                             {
+                                stu.userid = "4818";
                                 Getasync("https://runway.nctu.edu.tw/api/check/" + stu.userid);
 
                                 finish_choose = true;
@@ -478,10 +482,19 @@ namespace runway
                             {
                                 finish_choose = false;
                             }
-                            while (!finish_choose)
+                            if (finish_choose && stu.result==1)
                             {
+                                choose = 1;
                                 Post("https://runway.nctu.edu.tw/api/check/" + stu.userid);
                             }
+                            else if( stu.result == 2 )
+                            {
+                                while (!finish_choose)
+                                {
+                                    Thread.Sleep(200);
+                                }
+                            }
+                            
                             
                         }
                     }
@@ -521,5 +534,9 @@ namespace runway
 
         }
 
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+
+        }
     }
 }
