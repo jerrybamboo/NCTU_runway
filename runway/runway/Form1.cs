@@ -237,6 +237,7 @@ namespace runway
                 }
                 catch (Exception ex)
                 {
+                    error = true;
                     throw new Exception("在提取您所要求的" + url + "網頁時發生錯誤。" + "請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:" + ex.Message);
                 }
             }
@@ -283,6 +284,7 @@ namespace runway
             }
             catch(Exception ex)
             {
+                error = true;
                 throw new Exception("在提取您所要求的" + url + "網頁時發生錯誤。" + "請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:" + ex.Message);
             }
 
@@ -294,6 +296,13 @@ namespace runway
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            /*
+
+            error = true;
+            choose = 1024;
+            Post("https://runway.nctu.edu.tw/api/check/4818");
+
+            */
 
             if (!error)
             {
@@ -447,7 +456,7 @@ namespace runway
                 if (axZKFPEngX1.GetFingerImage(ref oImage))
                 {
                     //擷取USB指紋儀圖片並顯示
-                    MemoryStream mStream = new MemoryStream((byte[])oImage);
+                    //MemoryStream mStream = new MemoryStream((byte[])oImage);
                     //Image image = Image.FromStream(mStream);
 
                     //建立一個Request物件準備發送至server端程式
@@ -500,10 +509,12 @@ namespace runway
                     }
                     catch (WebException err)
                     {
+                        error = true;
                         if (err.Response == null)
                         {
                             user.Text = "No response:" + err.Message;
                             user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
+                            //user.Location = new Point(10, (int)(max_y * 3 / 5));
                             condition.Visible = false;
                             overtime.Visible = false;
 
@@ -514,6 +525,7 @@ namespace runway
                             {
                                 user.Text = JObject.Parse(sr.ReadToEnd()).ToString();
                                 user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
+                                //user.Location = new Point(10, (int)(max_y * 3 / 5));
                                 condition.Visible = false;
                                 overtime.Visible = false;
                             }
@@ -522,8 +534,10 @@ namespace runway
                     }
                     catch (Exception err)
                     {
+                        error = true;
                         user.Text = "No response:" + err.Message;
                         user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
+                        //user.Location = new Point(10, (int)(max_y * 3 / 5));
                         condition.Visible = false;
                         overtime.Visible = false;
                     }
