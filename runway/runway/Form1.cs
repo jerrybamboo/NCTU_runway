@@ -45,8 +45,9 @@ namespace runway
         int iMachineNumber = 1;//the serial number of the device.After connecting the device ,this value will be changed.
         int idwErrorCode = 0;
 
-
-
+        //test
+        string word= "http://localhost:11115/api/values";
+        int test_data =1;
 
         public class Student
         {
@@ -181,58 +182,58 @@ namespace runway
 
 
 
-        async void Getasync(string url)//GET此學生的相關參數
+        public void Getasync(string url)//GET此學生的相關參數
         {
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
-                    using (HttpResponseMessage response = await client.GetAsync(url))
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:11115/api/values");
+
+                    request.Method = "GET";
+                    request.Accept = "application/json";
+
+
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    StreamReader reader = new StreamReader(response.GetResponseStream());
+                    StringBuilder output = new StringBuilder();
+                    output.Append(reader.ReadToEnd());
+
+                    string mycontent = output.ToString();
+                    string[] tem_split = mycontent.Split(',', '"', '{', '}', ':', '[', ']');
+                    int len = 0;
+                    string[] tem2_split = new string[8];
+                    for (int i = 0; i < tem_split.Length; i++)
                     {
-                        if (response.IsSuccessStatusCode)
+                        if (tem_split[i] != "")
                         {
-
-                            using (HttpContent content = response.Content)
+                            if (len == 8)
                             {
-                                string mycontent = await content.ReadAsStringAsync();
-                                string[] tem_split = mycontent.Split(',', '"', '{', '}', ':', '[', ']');
-                                int len = 0;
-                                string[] tem2_split = new string[8];
-                                for (int i = 0; i < tem_split.Length; i++)
-                                {
-                                    if (tem_split[i] != "")
-                                    {
-                                        if (len == 8)
-                                        {
-                                            error = true;
-                                            break;
-                                        }
-                                        tem2_split[len] = tem_split[i];
-                                        len++;
-                                    }
-
-                                }
-                                if (len != 8)
-                                {
-                                    error = true;
-                                }
-                                if (!error)
-                                {
-                                    stu.name = tem2_split[1];
-                                    stu.result = Convert.ToInt32(tem2_split[3]);
-                                    stu.status = Convert.ToInt32(tem2_split[5]);
-                                    stu.time = Convert.ToInt32(tem2_split[7]);
-                                }
-                                else
-                                {
-                                    user.Text = "Error:Parameter identification failed";
-                                    user.Location= new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
-                                    condition.Visible = false;
-                                    overtime.Visible = false;
-                                }
+                                error = true;
+                                break;
                             }
+                            tem2_split[len] = tem_split[i];
+                            len++;
                         }
 
+                    }
+                    if (len != 8)
+                    {
+                        error = true;
+                    }
+                    if (!error)
+                    {
+                        stu.name = tem2_split[1];
+                        stu.result = Convert.ToInt32(tem2_split[3]);
+                        stu.status = Convert.ToInt32(tem2_split[5]);
+                        stu.time = Convert.ToInt32(tem2_split[7]);
+                    }
+                    else
+                    {
+                        user.Text = "Error:Parameter identification failed";
+                        user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
+                        condition.Visible = false;
+                        overtime.Visible = false;
                     }
                 }
                 catch (Exception ex)
@@ -346,23 +347,7 @@ namespace runway
                         text = "錯誤";
                         break;
                 }
-                if (stu.result != 2)
-                {
-                    choose = 1;
-                }
-                else if (stu.result == 2 && !finish_choose)
-                {
-                    button1.Visible = true;
-                    button2.Visible = true;
-                    label1.Visible = true;
 
-                    user.Visible = false;
-                    condition.Visible = false;
-                    overtime.Visible = false;
-                    timer1.Enabled = false;
-
-
-                }
             }
 
 
@@ -449,7 +434,7 @@ namespace runway
         private void axZKFPEngX1_OnFingerLeaving(object sender, EventArgs e)
         {
 
-            if (!error)
+            if (!error && finish_choose)
             {
                 object oImage = new object();
                 //先看看能不能取得指紋圖像
@@ -471,6 +456,7 @@ namespace runway
                     //發送&接收資料
                     try
                     {
+                        /*
                         using (StreamWriter sw = new StreamWriter(req.GetRequestStream()))
                         {
                             sw.Write(joReqData.ToString());
@@ -496,16 +482,61 @@ namespace runway
                                 choose = 1;
                                 Post("https://runway.nctu.edu.tw/api/check/" + stu.userid);
                             }
-                            else if( stu.result == 2 )
+                            else if( stu.result == 2 &&!finish_choose)
                             {
                                 while (!finish_choose)
                                 {
                                     Thread.Sleep(200);
                                 }
+                                button1.Visible = true;
+                                button2.Visible = true;
+                                label1.Visible = true;
+
+                                user.Visible = false;
+                                condition.Visible = false;
+                                overtime.Visible = false;
+                                timer1.Enabled = false;
                             }
                             
                             
                         }
+                        */
+
+                        //---------------if no 辨識API-----------
+                        if (!error)
+                        {
+                            Getasync(word);
+
+                            finish_choose = true;
+                        }
+                        if (stu.result == 2)
+                        {
+                            finish_choose = false;
+                        }
+                        if (finish_choose && stu.result == 1)
+                        {
+                            choose = 1;
+                            Post("https://runway.nctu.edu.tw/api/check/" + stu.userid);
+                        }
+                        else if (stu.result == 2 &&!finish_choose)
+                        {
+                            /*
+                            while (!finish_choose)
+                            {
+                                Thread.Sleep(200);
+                            }
+                            */
+                            button1.Visible = true;
+                            button2.Visible = true;
+                            label1.Visible = true;
+
+                            user.Visible = false;
+                            condition.Visible = false;
+                            overtime.Visible = false;
+                            timer1.Enabled = false;
+                        }
+
+                        //----------------------------------------------
                     }
                     catch (WebException err)
                     {
