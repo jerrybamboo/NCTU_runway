@@ -1,0 +1,12 @@
+2017-09-21(週四)  00:57:53  Post Fail
+2017-09-21(週四)  00:51:42  Post Error
+2017-09-21(週四)  00:40:18  在提取您所要求的http://localhost:11115/api/values網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:無法連接至遠端伺服器
+2017-09-21(週四)  00:40:12  在提取您所要求的http://localhost:11115/api/values網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:無法連接至遠端伺服器
+2017-09-21(週四)  00:39:57  在提取您所要求的http://localhost:11115/api/values網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:無法連接至遠端伺服器
+
+
+
+
+
+
+

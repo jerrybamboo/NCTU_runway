@@ -29,25 +29,14 @@ namespace runway
         Student stu = new Student { userid="4818" , name = "None", result = 1, status = 1, time = 0 };//當前顯示在螢幕上的學生
 
         int choose = 1;          //選擇兌換的早餐    1:39元早餐      2:49元早餐
-        string pre_id = "";      //上一個GET的ID
 
         bool finish_choose= true;//是否選好領取39或49元早餐
-        bool error = false;      //是否程式錯誤
+        bool error = false;      //是否程式錯誤，方便debug用
 
-        bool already=false;      //得到不同的ID將執行1次
-        bool already_post = true;//是否已經post了
-        string responseFromServer;
-
-
-
-        public zkemkeeper.CZKEMClass axCZKEM1 = new zkemkeeper.CZKEMClass();//Create Standalone SDK class dynamicly.
-        bool bIsConnected = false;//the boolean value identifies whether the device is connected
-        int iMachineNumber = 1;//the serial number of the device.After connecting the device ,this value will be changed.
-        int idwErrorCode = 0;
+        
 
         //test
         string word= "http://localhost:11115/api/values";
-        int test_data =1;
 
         public class Student
         {
@@ -142,7 +131,7 @@ namespace runway
                 {
                     if (len == 6)
                     {
-                        error = true;
+                        //error = true;
                         break;
                     }
                     tem2_split[len] = tem_split[i];
@@ -152,7 +141,7 @@ namespace runway
             }
             if (len != 6)
             {
-                error = true;
+                //error = true;
             }
             if (!error && len == 6)
             {
@@ -167,19 +156,10 @@ namespace runway
                 stu.message = tem2_split[3];
 
                 log("Error:ID identification failed" + "message:" + stu.message);
-                user.Text = "系統發生錯誤";
-                user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
-                condition.Visible = false;
-                overtime.Visible = false;
             }
             else
             {
                 log("Error:ID identification failed");
-                user.Text = "系統發生錯誤";
-                user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
-                //user.Location = new Point(10, (int)(max_y * 3 / 5));
-                condition.Visible = false;
-                overtime.Visible = false;
             }
 
 
@@ -214,7 +194,7 @@ namespace runway
                         {
                             if (len == 8)
                             {
-                                error = true;
+                                //error = true;
                                 break;
                             }
                             tem2_split[len] = tem_split[i];
@@ -224,7 +204,7 @@ namespace runway
                     }
                     if (len != 8)
                     {
-                        error = true;
+                        //error = true;
                     }
                     if (!error)
                     {
@@ -236,28 +216,19 @@ namespace runway
                     else
                     {
                         log("Error:Parameter identification failed");
-                        user.Text = "系統發生錯誤";
-                        user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
-                        //user.Location = new Point(10, (int)(max_y * 3 / 5));
-                        condition.Visible = false;
-                        overtime.Visible = false;
                     }
                 }
                 catch (Exception ex)
                 {
-                    error = true;
+                    //error = true;
                     log("在提取您所要求的" + url + "網頁時發生錯誤。" + "請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:" + ex.Message);
-                    user.Text = "系統發生錯誤";
-                    user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
-                    //user.Location = new Point(10, (int)(max_y * 3 / 5));
-                    condition.Visible = false;
-                    overtime.Visible = false;
                 }
             }
         }
 
         public void Post(string url)
         {
+            string responseFromServer;
             try
             {
                 // Create a request using a URL that can receive a post. 
@@ -288,7 +259,9 @@ namespace runway
                 StreamReader reader = new StreamReader(dataStream);
                 // Read the content.
                 responseFromServer = reader.ReadLine();
-                //user.Text = responseFromServer;
+
+                check_post(responseFromServer);
+
                 // Clean up the streams.
                 reader.Close();
                 dataStream.Close();
@@ -297,25 +270,45 @@ namespace runway
             }
             catch(Exception ex)
             {
-                error = true;
+                //error = true;
                 log("在提取您所要求的" + url + "網頁時發生錯誤。" + "請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:" + ex.Message);
-                user.Text = "系統發生錯誤";
-                user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
-                //user.Location = new Point(10, (int)(max_y * 3 / 5));
-                condition.Visible = false;
-                overtime.Visible = false;
             }
 
 
         }
 
+        public void check_post(string responseFromServer)
+        {
+            string[] tem_split = responseFromServer.Split(',', '"', '{', '}', ':', '[', ']');
+            int len = 0;
+            string[] tem2_split = new string[2];
+            for (int i = 0; i < tem_split.Length; i++)
+            {
+                if (tem_split[i] != "")
+                {
+                    if (len == 2)
+                    {
+                        //error = true;
+                        log("Post Error");
+                        break;
+                    }
+                    tem2_split[len] = tem_split[i];
+                    len++;
+                }
 
-        
+            }
+            if (!error)
+            {
+                if (String.Compare("0", tem2_split[1]) == 0)
+                    log("Post Fail");
+            }
+        }
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
 
-            //error = false;//為了讓程式遇到error持續執行
+            error = false;//為了讓程式遇到error持續執行
 
 
             date.Text = DateTime.Now.ToString("yyyy-MM-dd(ddd)  HH:mm:ss");
@@ -385,23 +378,27 @@ namespace runway
                 }
             }
 
-
-
-
             this.Invalidate();
 
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            /*
-            if(error)
-                e.Graphics.DrawImage(imageList1.Images[2], max_x / 2 + 400, max_y / 2 - 100, 128, 128);
-            else if (stu.result == 0 || stu.result == 1)
-                e.Graphics.DrawImage(imageList1.Images[stu.result], max_x / 2 + 400, max_y / 2 - 50, 128, 128);
-            else
-                e.Graphics.DrawImage(imageList1.Images[1], max_x / 2 + 400, max_y / 2 - 50, 128, 128);
-            */
+            try
+            {
+                if (error)
+                    e.Graphics.DrawImage(imageList1.Images[2], max_x / 2 + 400, max_y / 2 - 100, 128, 128);
+                else if (stu.result == 0 || stu.result == 1)
+                    e.Graphics.DrawImage(imageList1.Images[stu.result], max_x / 2 + 400, max_y / 2 - 50, 128, 128);
+                else
+                    e.Graphics.DrawImage(imageList1.Images[1], max_x / 2 + 400, max_y / 2 - 50, 128, 128);
+            }
+            catch (Exception err)
+            {
+                //error = true;
+                log("Picture error:" + err.Message);
+            }
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -542,54 +539,59 @@ namespace runway
                     }
                     catch (WebException err)
                     {
-                        error = true;
+                        //error = true;
                         if (err.Response == null)
                         {
                             log("No response:" + err.Message);
-                            user.Text = "系統發生錯誤";
-                            user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
-                            //user.Location = new Point(10, (int)(max_y * 3 / 5));
-                            condition.Visible = false;
-                            overtime.Visible = false;
-
                         }
                         else
                         {
                             using (StreamReader sr = new StreamReader(err.Response.GetResponseStream()))
                             {
                                 log(JObject.Parse(sr.ReadToEnd()).ToString());
-                                user.Text = "系統發生錯誤";
-                                user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
-                                //user.Location = new Point(10, (int)(max_y * 3 / 5));
-                                condition.Visible = false;
-                                overtime.Visible = false;
                             }
                         }
 
                     }
                     catch (Exception err)
                     {
-                        error = true;
+                        //error = true;
                         log("No response:" + err.Message);
-                        user.Text = "系統發生錯誤";
-                        user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
-                        //user.Location = new Point(10, (int)(max_y * 3 / 5));
-                        condition.Visible = false;
-                        overtime.Visible = false;
                     }
                 }
             }
         }
         public void log(string data)
         {
+            string all_data="";
+
+            // 先確定檔案存在
+            if (File.Exists("..//..//Resources//runway_log.txt"))
+            {
+                // 檔案設定
+                FileStream fileInput = new FileStream("..//..//Resources//runway_log.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                // 開啟檔案
+                StreamReader streamIn = new StreamReader(fileInput);
+
+                // 讀檔
+                while (!streamIn.EndOfStream)
+                {
+                    all_data = all_data + streamIn.ReadLine();
+                    all_data = all_data + Environment.NewLine;
+                }
+                streamIn.Close();
+            }
+
+            all_data = data + Environment.NewLine + all_data ;
+
             // 檔案設定
-            FileStream outFile = new FileStream("..//..//Resources//runway_log", FileMode.Create, FileAccess.Write);
+            FileStream outFile = new FileStream("..//..//Resources//runway_log.txt", FileMode.Create, FileAccess.Write);
 
             // 建立檔案流
             StreamWriter streamOut = new StreamWriter(outFile);
 
             // 寫檔
-            streamOut.WriteLine(date.Text+"  " + data + "\n");
+            streamOut.WriteLine(date.Text + "  " + all_data);
 
             streamOut.Close();
 
