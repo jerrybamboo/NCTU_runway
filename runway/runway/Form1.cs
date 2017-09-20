@@ -182,7 +182,7 @@ namespace runway
 
 
 
-        public void Getasync(string url)//GET此學生的相關參數
+        public void Get_StudentData(string url)//GET此學生的相關參數
         {
             using (HttpClient client = new HttpClient())
             {
@@ -192,7 +192,6 @@ namespace runway
 
                     request.Method = "GET";
                     request.Accept = "application/json";
-
 
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                     StreamReader reader = new StreamReader(response.GetResponseStream());
@@ -276,7 +275,7 @@ namespace runway
                 StreamReader reader = new StreamReader(dataStream);
                 // Read the content.
                 responseFromServer = reader.ReadLine();
-                user.Text = responseFromServer;
+                //user.Text = responseFromServer;
                 // Clean up the streams.
                 reader.Close();
                 dataStream.Close();
@@ -468,8 +467,7 @@ namespace runway
                             Get_ID(JObject.Parse(sr.ReadToEnd()).ToString());
                             if (!error)
                             {
-                                stu.userid = "4818";
-                                Getasync("https://runway.nctu.edu.tw/api/check/" + stu.userid);
+                                Get_StudentData("https://runway.nctu.edu.tw/api/check/" + stu.userid);
 
                                 finish_choose = true;
                             }
@@ -505,7 +503,7 @@ namespace runway
                         //---------------if no 辨識API-----------
                         if (!error)
                         {
-                            Getasync(word);
+                            Get_StudentData(word);
 
                             finish_choose = true;
                         }
@@ -576,11 +574,6 @@ namespace runway
             }
             
             
-
-        }
-
-        private void timer2_Tick(object sender, EventArgs e)
-        {
 
         }
     }
