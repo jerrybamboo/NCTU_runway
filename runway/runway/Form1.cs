@@ -99,13 +99,13 @@ namespace runway
             max_y = 801;
 
             label1.Text = "你的等級已達5級，可選擇39元早餐或49元早餐";
-            date.Text = DateTime.Now.ToString("yyyy-MM-dd(ddd)");
+            date.Text = DateTime.Now.ToString("yyyy-MM-dd(ddd)  HH:mm:ss");
 
             //--------------------<設定位置>----------------------
             user.Location = new Point((int)(max_x * 2 / 5), (int)(max_y * 3 / 5));
             condition.Location = new Point((int)(max_x * 2 / 5), (int)(max_y * 3 / 5 + 100));
             overtime.Location = new Point((int)(max_x * 2 / 5), (int)(max_y * 3 / 5 + 200));
-            date.Location= new Point(max_x - 300, 100);
+            date.Location= new Point(max_x - 400, 100);
             button1.Location = new Point((int)(max_x / 3 ), (int)(max_y * 3 / 5 + 100));
             button2.Location = new Point((int)(max_x / 2 + 70), (int)(max_y * 3 / 5 + 100));
             label1.Location = new Point((int)(max_x / 4), (int)(max_y * 3 / 5));
@@ -165,17 +165,23 @@ namespace runway
             {
                 stu.GetID_result = Convert.ToInt32(tem2_split[1]);
                 stu.message = tem2_split[3];
-                user.Text = "Error:ID identification failed";
-                condition.Text = "message:" + stu.message;
+
+                log("Error:ID identification failed" + "message:" + stu.message);
+                user.Text = "系統發生錯誤";
+                user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
+                condition.Visible = false;
                 overtime.Visible = false;
             }
             else
             {
-                user.Text = "Error:ID identification failed";
+                log("Error:ID identification failed");
+                user.Text = "系統發生錯誤";
+                user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
+                //user.Location = new Point(10, (int)(max_y * 3 / 5));
                 condition.Visible = false;
                 overtime.Visible = false;
             }
-            //bIsConnected = axCZKEM1.Connect_Net(url, Convert.ToInt32(txtPort.Text));
+
 
 
         }
@@ -229,8 +235,10 @@ namespace runway
                     }
                     else
                     {
-                        user.Text = "Error:Parameter identification failed";
+                        log("Error:Parameter identification failed");
+                        user.Text = "系統發生錯誤";
                         user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
+                        //user.Location = new Point(10, (int)(max_y * 3 / 5));
                         condition.Visible = false;
                         overtime.Visible = false;
                     }
@@ -238,7 +246,12 @@ namespace runway
                 catch (Exception ex)
                 {
                     error = true;
-                    throw new Exception("在提取您所要求的" + url + "網頁時發生錯誤。" + "請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:" + ex.Message);
+                    log("在提取您所要求的" + url + "網頁時發生錯誤。" + "請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:" + ex.Message);
+                    user.Text = "系統發生錯誤";
+                    user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
+                    //user.Location = new Point(10, (int)(max_y * 3 / 5));
+                    condition.Visible = false;
+                    overtime.Visible = false;
                 }
             }
         }
@@ -285,7 +298,12 @@ namespace runway
             catch(Exception ex)
             {
                 error = true;
-                throw new Exception("在提取您所要求的" + url + "網頁時發生錯誤。" + "請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:" + ex.Message);
+                log("在提取您所要求的" + url + "網頁時發生錯誤。" + "請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:" + ex.Message);
+                user.Text = "系統發生錯誤";
+                user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
+                //user.Location = new Point(10, (int)(max_y * 3 / 5));
+                condition.Visible = false;
+                overtime.Visible = false;
             }
 
 
@@ -296,19 +314,13 @@ namespace runway
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            /*
 
-            error = true;
-            choose = 1024;
-            Post("https://runway.nctu.edu.tw/api/check/4818");
+            //error = false;//為了讓程式遇到error持續執行
 
-            */
 
+            date.Text = DateTime.Now.ToString("yyyy-MM-dd(ddd)  HH:mm:ss");
             if (!error)
             {
-                //SSR_GetUserTmp()
-                //date.Text = stu.userid + "\n" + stu.name + "\n" + Convert.ToString(stu.result) + "\n" + Convert.ToString(stu.status) + "\n" + Convert.ToString(stu.time) + "\n" +stu.result;
-
 
                 switch (stu.status)
                 {
@@ -482,10 +494,7 @@ namespace runway
                             }
                             else if( stu.result == 2 &&!finish_choose)
                             {
-                                while (!finish_choose)
-                                {
-                                    Thread.Sleep(200);
-                                }
+
                                 button1.Visible = true;
                                 button2.Visible = true;
                                 label1.Visible = true;
@@ -518,12 +527,7 @@ namespace runway
                         }
                         else if (stu.result == 2 &&!finish_choose)
                         {
-                            /*
-                            while (!finish_choose)
-                            {
-                                Thread.Sleep(200);
-                            }
-                            */
+
                             button1.Visible = true;
                             button2.Visible = true;
                             label1.Visible = true;
@@ -541,7 +545,8 @@ namespace runway
                         error = true;
                         if (err.Response == null)
                         {
-                            user.Text = "No response:" + err.Message;
+                            log("No response:" + err.Message);
+                            user.Text = "系統發生錯誤";
                             user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
                             //user.Location = new Point(10, (int)(max_y * 3 / 5));
                             condition.Visible = false;
@@ -552,7 +557,8 @@ namespace runway
                         {
                             using (StreamReader sr = new StreamReader(err.Response.GetResponseStream()))
                             {
-                                user.Text = JObject.Parse(sr.ReadToEnd()).ToString();
+                                log(JObject.Parse(sr.ReadToEnd()).ToString());
+                                user.Text = "系統發生錯誤";
                                 user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
                                 //user.Location = new Point(10, (int)(max_y * 3 / 5));
                                 condition.Visible = false;
@@ -564,7 +570,8 @@ namespace runway
                     catch (Exception err)
                     {
                         error = true;
-                        user.Text = "No response:" + err.Message;
+                        log("No response:" + err.Message);
+                        user.Text = "系統發生錯誤";
                         user.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
                         //user.Location = new Point(10, (int)(max_y * 3 / 5));
                         condition.Visible = false;
@@ -572,8 +579,20 @@ namespace runway
                     }
                 }
             }
-            
-            
+        }
+        public void log(string data)
+        {
+            // 檔案設定
+            FileStream outFile = new FileStream("..//..//Resources//runway_log", FileMode.Create, FileAccess.Write);
+
+            // 建立檔案流
+            StreamWriter streamOut = new StreamWriter(outFile);
+
+            // 寫檔
+            streamOut.WriteLine(date.Text+"  " + data + "\n");
+
+            streamOut.Close();
+
 
         }
     }
