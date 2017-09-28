@@ -22,6 +22,8 @@ namespace runway
 {
     public partial class Form1 : Form
     {
+        int num_39 ;
+        int num_49 ;
 
         string text = "待命中";//不同status所要顯示的文字
         int max_x;//全螢幕寬度
@@ -87,6 +89,7 @@ namespace runway
             date.Text = DateTime.Now.ToString("yyyy-MM-dd(ddd)  HH:mm:ss");
             command.Text = "請輸入學號";
             except.Text = "*錯誤:學號輸入錯誤";
+            noitem.Text = "*錯誤:39元餐已領畢，你的等級不足以領49元餐";
 
             //--------------------<設定位置>----------------------
             user.Location = new Point((int)(max_x * 2 / 5), (int)(max_y * 3 / 5));
@@ -101,6 +104,12 @@ namespace runway
             textBox1.Location = new Point((int)(max_x * 2 / 5), (int)(max_y * 3 / 5 + 50));
             except.Location = new Point((int)(max_x * 2 / 5) - 20, (int)(max_y * 3 / 5 + 120));
             button3.Location = new Point((int)(max_x * 2 / 5) + 250, (int)(max_y * 3 / 5 + 50));
+            noitem.Location = except.Location;
+
+
+            rem_39.Location= new Point(100, 100);
+            rem_49.Location = new Point(100, 150);
+
             //------------------------------------------------------
 
             user.Visible = false;
@@ -114,10 +123,13 @@ namespace runway
 
 
             except.Visible = false;
+            noitem.Visible = false;
        
             command.Visible = true;
             textBox1.Visible = true;
             button3.Visible = true;
+
+            store_num(1);
 
         }
 
@@ -183,6 +195,7 @@ namespace runway
                 }
                 catch (Exception ex)
                 {
+                    textBox1.Text = "";
                     stu.result = -1;
                     draw = false;
                     except.Visible = true;
@@ -233,12 +246,23 @@ namespace runway
                 dataStream.Close();
                 response.Close();
 
-
+                if (choose == 1 && stu.result != -1)
+                {
+                    num_39--;
+                    store_num(2);
+                }
+                else if (choose == 2 && stu.result != -1)
+                {
+                    num_49--;
+                    store_num(2);
+                }
+                
 
                 timer2.Enabled = true;
             }
             catch (Exception ex)
             {
+                textBox1.Text = "";
                 stu.result = -1;
                 draw = false;
                 //error = true;
@@ -285,6 +309,8 @@ namespace runway
             date.Text = DateTime.Now.ToString("yyyy-MM-dd(ddd)  HH:mm:ss");
             if (!error)
             {
+                rem_39.Text = "#39元早餐:剩餘" + Convert.ToString(num_39) + "份";
+                rem_49.Text = "#49元早餐:剩餘" + Convert.ToString(num_49) + "份";
 
                 switch (stu.status)
                 {
@@ -379,6 +405,11 @@ namespace runway
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (num_39 == 0)
+            {
+                return;
+            }
+
             choose = 1;
 
             show();
@@ -388,6 +419,11 @@ namespace runway
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (num_49 == 0)
+            {
+                return;
+            }
+
             choose = 2;
 
             show();
@@ -434,6 +470,103 @@ namespace runway
 
         }
 
+        public void store_num(int read_or_write)//read_or_write   1:讀取剩下的庫存  2:存入庫存量於檔案中
+        {
+            string today = "";
+            string remaind_39 = "";
+            string remaind_49 = "";
+
+            int count = 1;
+
+            // 先確定檔案存在
+            if (File.Exists("..//..//Resources//runway_num.txt"))
+            {
+                // 檔案設定
+                FileStream fileInput = new FileStream("..//..//Resources//runway_num.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                // 開啟檔案
+                StreamReader streamIn = new StreamReader(fileInput);
+
+
+                // 讀檔
+                while (!streamIn.EndOfStream)
+                {
+                    if (count == 1)
+                    {
+                        today = streamIn.ReadLine();    
+                    }
+                    else if (count == 2)
+                    {
+                        remaind_39= streamIn.ReadLine();
+                    }
+                    else if (count == 3)
+                    {
+                        remaind_49 = streamIn.ReadLine();
+                    }
+                    count++;
+                }
+                streamIn.Close();
+            }
+
+            if (String.Compare(DateTime.Now.ToString("yyyy-MM-dd"), today) == 0)
+            {
+                if (read_or_write == 1)
+                {
+                    num_39 = Convert.ToInt32(remaind_39);
+                    num_49 = Convert.ToInt32(remaind_49);
+                }
+                else if (read_or_write == 2)
+                {
+                    // 檔案設定
+                    FileStream outFile = new FileStream("..//..//Resources//runway_num.txt", FileMode.Create, FileAccess.Write);
+
+                    // 建立檔案流
+                    StreamWriter streamOut = new StreamWriter(outFile);
+
+                    // 寫檔
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (i == 0)
+                            streamOut.WriteLine(DateTime.Now.ToString("yyyy-MM-dd"));
+                        else if (i == 1)
+                            streamOut.WriteLine(Convert.ToString(num_39));
+                        else
+                            streamOut.WriteLine(Convert.ToString(num_49));
+                    }
+
+                    streamOut.Close();
+                }
+            }
+            else
+            {
+                num_39 = 40;
+                num_49 = 20;
+
+                // 檔案設定
+                FileStream outFile = new FileStream("..//..//Resources//runway_num.txt", FileMode.Create, FileAccess.Write);
+
+                // 建立檔案流
+                StreamWriter streamOut = new StreamWriter(outFile);
+
+                // 寫檔
+                for(int i = 0; i < 3; i++)
+                {
+                    if (i == 0)
+                        streamOut.WriteLine(DateTime.Now.ToString("yyyy-MM-dd"));
+                    else if (i == 1)
+                        streamOut.WriteLine(Convert.ToString(num_39));
+                    else
+                        streamOut.WriteLine(Convert.ToString(num_49));
+                }
+                
+
+                streamOut.Close();
+            }
+
+                
+
+
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
 
@@ -441,19 +574,41 @@ namespace runway
             {
                 try
                 {
-
+                    if (textBox1.Text.Length != 7)
+                    {
+                        textBox1.Text = "";
+                        stu.result = -1;
+                        draw = false;
+                        except.Visible = true;
+                        return;
+                    }
                     if (!error)
                     {
                         Get_StudentData("https://runway.nctu.edu.tw/api/check/" + textBox1.Text);
 
                         finish_choose = true;
                     }
+
+                    //-------<For test>------
+                    //stu.result = 2;
+                    //stu.status = 1;
+
                     if (stu.result == 2)
                     {
                         finish_choose = false;
                     }
                     if (finish_choose && stu.result == 1)
                     {
+                        if (num_39 == 0)
+                        {
+                            noitem.Visible = true;
+                            timer2.Enabled = true;
+                            textBox1.Text = "";
+                            return;
+
+                        }
+
+
                         choose = 1;
 
                         show();
@@ -462,6 +617,14 @@ namespace runway
                     }
                     else if (stu.result == 2 && !finish_choose)
                     {
+                        if (num_39 == 0 && num_49 == 0)
+                        {
+                            noitem.Text = "*錯誤:餐點皆已領畢";
+                            noitem.Visible = true;
+                            textBox1.Text = "";
+                            return;
+                        }
+
 
                         button1.Visible = true;
                         button2.Visible = true;
@@ -473,6 +636,7 @@ namespace runway
                         timer1.Enabled = false;
 
                         except.Visible = false;
+                        noitem.Visible = false;
                         command.Visible = false;
                         textBox1.Visible = false;
                         button3.Visible = false;
@@ -482,10 +646,11 @@ namespace runway
                         show();
                     }
                     textBox1.Text = "";
-                    //----------------------------------------------
+                    
                 }
                 catch (WebException err)
                 {
+                    textBox1.Text = "";
                     stu.result = -1;
                     draw = false;
                     except.Visible = true;
@@ -505,6 +670,7 @@ namespace runway
                 }
                 catch (Exception err)
                 {
+                    textBox1.Text = "";
                     stu.result = -1;
                     draw = false;
                     except.Visible = true;
@@ -521,6 +687,7 @@ namespace runway
             label1.Visible = false;
 
             except.Visible = false;
+            noitem.Visible = false;
             command.Visible = true;
             textBox1.Visible = true;
             button3.Visible = true;
@@ -541,6 +708,7 @@ namespace runway
             label1.Visible = false;
 
             except.Visible = false;
+            noitem.Visible = false;
             command.Visible = false;
             textBox1.Visible = false;
             button3.Visible = false;

@@ -1,3 +1,4 @@
+2017-09-29(週五)  04:55:36  在提取您所要求的https://runway.nctu.edu.tw/api/check/50505450505網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:遠端伺服器傳回一個錯誤: (500) 內部伺服器錯誤。
 2017-09-29(週五)  00:02:01  在提取您所要求的https://runway.nctu.edu.tw/api/check/123網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:遠端伺服器傳回一個錯誤: (500) 內部伺服器錯誤。
 2017-09-28(週四)  23:48:16  在提取您所要求的https://runway.nctu.edu.tw/api/check/0510726網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:遠端伺服器傳回一個錯誤: (500) 內部伺服器錯誤。
 2017-09-28(週四)  23:47:27  在提取您所要求的https://runway.nctu.edu.tw/api/check/10網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:遠端伺服器傳回一個錯誤: (500) 內部伺服器錯誤。
@@ -29,6 +30,7 @@
 2017-09-21(週四)  00:40:18  在提取您所要求的http://localhost:11115/api/values網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:無法連接至遠端伺服器
 2017-09-21(週四)  00:40:12  在提取您所要求的http://localhost:11115/api/values網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:無法連接至遠端伺服器
 2017-09-21(週四)  00:39:57  在提取您所要求的http://localhost:11115/api/values網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:無法連接至遠端伺服器
+
 
 
 

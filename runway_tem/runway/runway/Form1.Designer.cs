@@ -44,6 +44,9 @@
             this.command = new System.Windows.Forms.Label();
             this.except = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.rem_39 = new System.Windows.Forms.Label();
+            this.rem_49 = new System.Windows.Forms.Label();
+            this.noitem = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // timer1
@@ -193,6 +196,42 @@
             this.timer2.Interval = 5000;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
+            // rem_39
+            // 
+            this.rem_39.AutoSize = true;
+            this.rem_39.BackColor = System.Drawing.Color.Transparent;
+            this.rem_39.Font = new System.Drawing.Font("標楷體", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.rem_39.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.rem_39.Location = new System.Drawing.Point(1078, 69);
+            this.rem_39.Name = "rem_39";
+            this.rem_39.Size = new System.Drawing.Size(137, 40);
+            this.rem_39.TabIndex = 1;
+            this.rem_39.Text = "rem_39";
+            // 
+            // rem_49
+            // 
+            this.rem_49.AutoSize = true;
+            this.rem_49.BackColor = System.Drawing.Color.Transparent;
+            this.rem_49.Font = new System.Drawing.Font("標楷體", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.rem_49.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.rem_49.Location = new System.Drawing.Point(1078, 123);
+            this.rem_49.Name = "rem_49";
+            this.rem_49.Size = new System.Drawing.Size(137, 40);
+            this.rem_49.TabIndex = 1;
+            this.rem_49.Text = "rem_49";
+            // 
+            // noitem
+            // 
+            this.noitem.AutoSize = true;
+            this.noitem.BackColor = System.Drawing.Color.Transparent;
+            this.noitem.Font = new System.Drawing.Font("標楷體", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.noitem.ForeColor = System.Drawing.Color.Red;
+            this.noitem.Location = new System.Drawing.Point(290, 571);
+            this.noitem.Name = "noitem";
+            this.noitem.Size = new System.Drawing.Size(164, 48);
+            this.noitem.TabIndex = 1;
+            this.noitem.Text = "noitem";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -207,7 +246,10 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.overtime);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.rem_49);
+            this.Controls.Add(this.rem_39);
             this.Controls.Add(this.date);
+            this.Controls.Add(this.noitem);
             this.Controls.Add(this.except);
             this.Controls.Add(this.command);
             this.Controls.Add(this.user);
@@ -238,6 +280,9 @@
         private System.Windows.Forms.Label command;
         private System.Windows.Forms.Label except;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Label rem_39;
+        private System.Windows.Forms.Label rem_49;
+        private System.Windows.Forms.Label noitem;
     }
 }
 
