@@ -39,30 +39,48 @@ namespace Runway_Moti
         JObject jobject;
         JArray jarray;
         JArray jarray_all;
+        JArray jarray_lesson = new JArray();
+        JArray jarray_lesson_detail = new JArray();
+
+
         string strJson;
         string date;
         string time_start;
         string time_end;
+
+        
         public void api_start(string authStringEnc, string enc_key , string enc_iv)
         {
+            Console.Clear();
             this.authStringEnc = authStringEnc;
             this.enc_key = enc_key;
             this.enc_iv = enc_iv;
             date = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+            //date = DateTime.Now.ToString("2018-07-18");
             time_start = date + " 00:00:00";
             time_end = date + " 23:59:59";
-            //syn_member_info_i = Newtonsoft.Json.JsonConvert.DeserializeObject<SYN_MEMBER_INFO_INPUT>("{\"email\":\"hu581nctu53.eed05@nctu.edu.tw\"}");
 
             
-            //==========================< API 0 >==================================
-            System.Console.Write("\n(0)\n");
-            api0();
+            //syn_member_info_i = Newtonsoft.Json.JsonConvert.DeserializeObject<SYN_MEMBER_INFO_INPUT>("{\"email\":\"hu581nctu53.eed05@nctu.edu.tw\"}");
+
+
+            //==========================< API 7>==================================
+            System.Console.Write("\n(7)\n");
+            api7();
+
+            //==========================< API 8>==================================
+            System.Console.Write("\n(8)\n");
+            api8();
+
+            //==========================< API 9>==================================
+            System.Console.Write("\n(9)\n");
+            api9();
 
             //==========================< API 1 >==================================
-            //System.Console.Write("\n(1)\n");
-            //(wait for api finish) 
-            //for (int i = 0; i < ((JArray)jarray_all).Count; i++)
-            //    api1("" + jarray_all[i]["member_id"]);
+            System.Console.Write("\n(1)\n");
+
+            for (int i = 0; i < ((JArray)jarray_all).Count; i++)
+                api1("" + jarray_all[i]["member_id"]);
             //==========================< API 2 >==================================
             System.Console.Write("\n(2)\n");
             for (int i = 0; i < ((JArray)jarray_all).Count; i++)
@@ -91,9 +109,9 @@ namespace Runway_Moti
             GC.Collect();
         } 
 
-        public void api0()
+        public void api7()
         {
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/list_member_info", "", true);
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/list_member_info", "", true,"");
         }
 
         public void api1(string member_id)
@@ -102,7 +120,7 @@ namespace Runway_Moti
             //物件序列化
             strJson = JsonConvert.SerializeObject(work_out_info_i, Formatting.Indented);
             //輸出結果
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/WorkoutInfo/API/Services/WorkoutInfo", strJson, false);
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/WorkoutInfo/API/Services/Workout_info", strJson, true, member_id);
 
         }
 
@@ -114,7 +132,7 @@ namespace Runway_Moti
             //物件序列化
             strJson = JsonConvert.SerializeObject(syn_member_fitness_record_i, Formatting.Indented);
             //輸出結果
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_fitness_record", strJson, true);
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_fitness_record", strJson, true, member_id);
 
         }
 
@@ -124,7 +142,7 @@ namespace Runway_Moti
             //物件序列化
             strJson = JsonConvert.SerializeObject(syn_member_info_i, Formatting.Indented);
             //輸出結果
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_info", strJson, false);
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_info", strJson, false,"");
         }
 
         public void api4(string member_id, string pedometer_sdatetime, string pedometer_edatetime)
@@ -135,7 +153,7 @@ namespace Runway_Moti
             //物件序列化
             strJson = JsonConvert.SerializeObject(syn_member_pedometer_record_i, Formatting.Indented);
             //輸出結果
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_pedometer_record", strJson, true);
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_pedometer_record", strJson, true, member_id);
 
         }
 
@@ -147,7 +165,7 @@ namespace Runway_Moti
             //物件序列化
             strJson = JsonConvert.SerializeObject(syn_member_info_weekly_record_i, Formatting.Indented);
             //輸出結果
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_info_weekly_record", strJson, true);
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_info_weekly_record", strJson, true,member_id);
 
         }
 
@@ -159,11 +177,22 @@ namespace Runway_Moti
             //物件序列化
             strJson = JsonConvert.SerializeObject(syn_member_aerobic_record_i, Formatting.Indented);
             //輸出結果
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_aerobic_record", strJson, true);
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_aerobic_record", strJson, true,member_id);
 
         }
 
-        public void Post(string url, string postData , Boolean isarray)
+        public void api8()
+        {
+            Post("http://jmex-api-service.azurewebsites.net/jmex-api/Nctu/DownloadLessonInfo", "", true, "");
+        }
+
+        public void api9()
+        {
+            Post("http://jmex-api-service.azurewebsites.net/jmex-api/Nctu/DownloadLessonWorkoutInfo", "", true,"");
+        }
+
+
+        public void Post(string url, string postData , Boolean isarray,string member_id)
         {
             string responseFromServer;
 
@@ -213,21 +242,77 @@ namespace Runway_Moti
                 if (isarray)
                 {
                     jarray = (JArray)JsonConvert.DeserializeObject(response_string);
-                    System.Console.Write("output:\n" + jarray + "\n");
-                    if (url == "http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/list_member_info")
+                    if (url == "http://jmex-api-service.azurewebsites.net/jmex-api/Nctu/DownloadLessonInfo")//api8
+                    {
+                        for (int i = 0; i < ((JArray)jarray).Count; i++)
+                        {
+                            if ("" + jarray[i]["verify_flag"] != "3")
+                            {
+                                JObject jo = (JObject)jarray[i];
+                                jarray_lesson.Add(jo);
+                            }
+                        }
+                        jarray = jarray_lesson;
+                    }
+                    else if (url == "http://jmex-api-service.azurewebsites.net/jmex-api/Nctu/DownloadLessonWorkoutInfo")//api9
+                    {
+                        
+                        for (int i = 0; i < ((JArray)jarray).Count; i++)
+                        {
+                            for (int j = 0; j < ((JArray)jarray_lesson).Count; j++)
+                            {
+                                if ("" + jarray_lesson[j]["lesson_id"] == "" + jarray[i]["lesson_id"])
+                                {
+                                    JObject jo = (JObject)jarray[i];
+                                    jarray_lesson_detail.Add(jo);
+                                    break;
+                                }
+                            }
+
+                        }
+                        jarray = jarray_lesson_detail;
+                        
+
+                    }
+                    else if (url == "http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/list_member_info")//api7
+                    {
                         jarray_all = jarray;
+                    }
+
+                    System.Console.Write("output:\n" + jarray + "\n");
                 }
                 else
                 {
                     jobject = (JObject)JsonConvert.DeserializeObject(response_string);
                     System.Console.Write("output:\n" + jobject + "\n");
                 }
-                if (url == "http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_fitness_record")
+
+
+                if (url == "http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_fitness_record")//api2
                 {
+                    //for (int i = 0; i < ((JArray)jarray).Count; i++)
+                    //    jarray[i]["member_id"] = "811250aa-ce69-424f-a756-499577a8eae9";
                     string pdata = "" + jarray;
                     
                     System.Console.Write("input to Post_DB:\n" + pdata + "\n");
-                    Post_to_DB("http://140.113.67.226/php/syn_member_fitness_record.php", pdata);
+                    Post_to_DB("http://140.113.199.75/api/test.php", pdata);
+
+                    Judge.judge_course(jarray_lesson,jarray_lesson_detail, jarray,member_id);//比對課程是否完成
+                    
+                }
+                else if(url == "http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/list_member_info")//api0
+                {
+                    JArray ja = new JArray(); 
+                    for (int i = 0; i < ((JArray)jarray).Count; i++)
+                    {
+                        JObject jo = (JObject)jarray[i];
+                        jo.Add(new JProperty("password", "t"));
+                        ja.Add(jo);
+
+                    }
+                    string pdata = "" + ja;
+                    System.Console.Write("input to Post_DB:\n" + pdata + "\n");
+                    Post_to_DB("http://140.113.199.75/api/test2.php", pdata);
                 }
                
                 //SYN_MEMBER_INFO_OUTPUT_1 = Newtonsoft.Json.JsonConvert.DeserializeObject<SYN_MEMBER_INFO_OUTPUT>(response_string);
@@ -307,10 +392,7 @@ namespace Runway_Moti
             }
         }
 
-        public string Deal_post_data(string input)
-        {
-            return "{"+input.Substring(1, input.Length - 2)+"}";
-        }
+
     }
 }
 

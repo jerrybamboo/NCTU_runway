@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="API_use.cs" />
     <Compile Include="Data_process.cs" />
+    <Compile Include="Judge.cs" />
     <Compile Include="LIST_MEMBER_INFO_OUTPUT.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
