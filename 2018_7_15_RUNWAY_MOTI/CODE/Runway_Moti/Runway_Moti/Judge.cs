@@ -29,10 +29,12 @@ namespace Runway_Moti
             JObject t = new JObject();
 
             int s;
+            int finish_course_limit;
             int[] workout_times = new int [130];
             //string finish_lesson_id = "nothing";
             string first_course = "";
             string last_course = "";
+
             try
             {
                 
@@ -52,9 +54,10 @@ namespace Runway_Moti
                     jarray_lesson_detail[i] = t;
                 }
                 //System.Console.Write("after sort:\n" + jarray_lesson_detail + "\n");
-
+                finish_course_limit = 6;
                 for (int i = 0; i < ((JArray)jarray_lesson_detail).Count; i++)
                 {
+                    if (finish_course_limit == 0) break;
                     if (i == 0 || last_course != (string)jarray_lesson_detail[i]["lesson_id"])
                         first_course = (string)jarray_lesson_detail[i]["lesson_id"];
                     else
@@ -67,7 +70,7 @@ namespace Runway_Moti
                     for (int j = i; j < ((JArray)jarray_lesson_detail).Count; j++)
                     {
                         if ((string)jarray_lesson_detail[j]["lesson_id"] == first_course)
-                            workout_times[((int)jarray_lesson_detail[j]["workout_id"] - 1)] = ((int)jarray_lesson_detail[j]["fitness_reps"]);
+                            workout_times[((int)jarray_lesson_detail[j]["workout_id"] - 1)] = ((int)jarray_lesson_detail[j]["fitness_reps"]) * ((int)jarray_lesson_detail[j]["fitness_set"]);
                     }
                     for (int j = 0; j < ((JArray)excerise).Count; j++)
                     {
@@ -88,7 +91,7 @@ namespace Runway_Moti
                                     post_json.Add(new JProperty("lesson_level_id", (string)jarray_lesson[k]["lesson_level_id"]));
                                     post_json.Add(new JProperty("update_time",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
                                     finish_course.Add(post_json);
-                                    
+                                    finish_course_limit--;
                                 }
 
                             }
