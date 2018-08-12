@@ -54,7 +54,8 @@ namespace Runway_Moti
             }
             catch (Exception ex)
             {
-                System.Console.Write("aesEncryptBase64 error:" + ex + "\n");
+                //System.Console.Write("aesEncryptBase64 error:" + ex + "\n");
+                Log.write_to_file("aesEncryptBase64 error:" + ex);
             }
             return encrypt;
         }
@@ -89,7 +90,8 @@ namespace Runway_Moti
             }
             catch (Exception ex)
             {
-                System.Console.Write("DecryptBase64 error:" + ex + "\n");
+                //System.Console.Write("DecryptBase64 error:" + ex + "\n");
+                Log.write_to_file("DecryptBase64 error:" + ex);
             }
             return decrypt;
         }

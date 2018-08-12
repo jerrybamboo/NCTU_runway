@@ -51,6 +51,7 @@
     <Compile Include="Data_process.cs" />
     <Compile Include="Judge.cs" />
     <Compile Include="LIST_MEMBER_INFO_OUTPUT.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Syn_member_aerobic_record_i.cs" />

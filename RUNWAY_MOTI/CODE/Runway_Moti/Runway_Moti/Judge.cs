@@ -31,7 +31,6 @@ namespace Runway_Moti
             int s;
             int finish_course_limit;
             int[] workout_times = new int [130];
-            //string finish_lesson_id = "nothing";
             string first_course = "";
             string last_course = "";
 
@@ -53,7 +52,7 @@ namespace Runway_Moti
                     jarray_lesson_detail[s] = jarray_lesson_detail[i];
                     jarray_lesson_detail[i] = t;
                 }
-                //System.Console.Write("after sort:\n" + jarray_lesson_detail + "\n");
+
                 finish_course_limit = 6;
                 for (int i = 0; i < ((JArray)jarray_lesson_detail).Count; i++)
                 {
@@ -102,7 +101,7 @@ namespace Runway_Moti
                 }
                 if (((JArray)finish_course).Count>0)
                 {
-                    System.Console.Write("finish course(input to Post_DB):\n" + finish_course + "\n");
+                    //System.Console.Write("finish course(input to Post_DB):\n" + finish_course + "\n");
 
                     Post_to_DB("http://140.113.199.75/api/test3.php", ""+finish_course);
                 }
@@ -111,8 +110,8 @@ namespace Runway_Moti
             }
             catch (Exception ex)
             {
-                System.Console.Write("Judge error:" + ex + "\n");
-                
+                //System.Console.Write("Judge error:" + ex + "\n");
+                Log.write_to_file("Judge error:" + ex);
             }
             
         }
@@ -123,10 +122,8 @@ namespace Runway_Moti
 
             try
             {
-                System.Console.Write("output Post_DB:\n");
-                //System.Console.Write("\nDB:\n" + postData + "\n");
+                //System.Console.Write("output Post_DB:\n");
 
-                //System.Console.Write(postData + "\n");
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(url);
 
@@ -158,8 +155,11 @@ namespace Runway_Moti
                 StreamReader reader = new StreamReader(dataStream);
                 // Read the content.
                 responseFromServer = reader.ReadLine();
-                System.Console.Write(responseFromServer + "\n");
-
+                //System.Console.Write(responseFromServer + "\n");
+                if (responseFromServer != "success")
+                {
+                    Log.write_to_file("Post to DB response error:" + responseFromServer);
+                }
                 reader.Close();
                 dataStream.Close();
                 response.Close();
@@ -169,8 +169,11 @@ namespace Runway_Moti
             }
             catch (Exception ex)
             {
-                System.Console.Write("Post to DB error:" + ex + "\n");
+                //System.Console.Write("Post to DB error(judge):" + ex + "\n");
+                Log.write_to_file("Post to DB error(judge):" + ex);
             }
         }
+
+        
     }
 }

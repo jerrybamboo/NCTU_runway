@@ -51,68 +51,67 @@ namespace Runway_Moti
         
         public void api_start(string authStringEnc, string enc_key , string enc_iv)
         {
-            Console.Clear();
-            this.authStringEnc = authStringEnc;
-            this.enc_key = enc_key;
-            this.enc_iv = enc_iv;
-            date = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
-            //date = DateTime.Now.ToString("2018-07-18");
-            time_start = date + " 00:00:00";
-            time_end = date + " 23:59:59";
+            try
+            {
+                //Console.Clear();
+                this.authStringEnc = authStringEnc;
+                this.enc_key = enc_key;
+                this.enc_iv = enc_iv;
+                date = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+                time_start = date + " 00:00:00";
+                time_end = date + " 23:59:59";
 
+                //==========================< API 7>==================================
+                //System.Console.Write("\n(7)\n");
+                api7();
+
+                //==========================< API 8>==================================
+                //System.Console.Write("\n(8)\n");
+                api8();
+
+                //==========================< API 9>==================================
+                //System.Console.Write("\n(9)\n");
+                api9();
+
+                //==========================< API 1 >==================================
+                //System.Console.Write("\n(1)\n");
+
+                for (int i = 0; i < ((JArray)jarray_all).Count; i++)
+                    api1("" + jarray_all[i]["member_id"]);
+                //==========================< API 2 >==================================
+                //System.Console.Write("\n(2)\n");
+                for (int i = 0; i < ((JArray)jarray_all).Count; i++)
+                    api2("" + jarray_all[i]["member_id"], time_start, time_end);
+
+                //==========================< API 3 >=================================
+                //System.Console.Write("\n(3)\n");
+                for (int i = 0; i < ((JArray)jarray_all).Count; i++)
+                    api3("" + jarray_all[i]["email"]);
+
+                //==========================< API 4 >==================================
+                //System.Console.Write("\n(4)\n");
+                for (int i = 0; i < ((JArray)jarray_all).Count; i++)
+                    api4("" + jarray_all[i]["member_id"], time_start, time_end);
+                //==========================< API 5 >==================================
+                //System.Console.Write("\n(5)\n");
+                for (int i = 0; i < ((JArray)jarray_all).Count; i++)
+                    api5("" + jarray_all[i]["member_id"], time_start, time_end);
+                //==========================< API 6 >==================================
+                //System.Console.Write("\n(6)\n");
+                for (int i = 0; i < ((JArray)jarray_all).Count; i++)
+                    api6("" + jarray_all[i]["member_id"], time_start, time_end);
+
+                // Force a garbage collection to occur for this
+                GC.Collect();
+            }
+            catch (Exception ex)
+            {
+                Log.write_to_file("api_start died:" + ex);
+            }
             
-            //syn_member_info_i = Newtonsoft.Json.JsonConvert.DeserializeObject<SYN_MEMBER_INFO_INPUT>("{\"email\":\"hu581nctu53.eed05@nctu.edu.tw\"}");
-
-
-            //==========================< API 7>==================================
-            System.Console.Write("\n(7)\n");
-            api7();
-
-            //==========================< API 8>==================================
-            System.Console.Write("\n(8)\n");
-            api8();
-
-            //==========================< API 9>==================================
-            System.Console.Write("\n(9)\n");
-            api9();
-
-            //==========================< API 1 >==================================
-            System.Console.Write("\n(1)\n");
-
-            for (int i = 0; i < ((JArray)jarray_all).Count; i++)
-                api1("" + jarray_all[i]["member_id"]);
-            //==========================< API 2 >==================================
-            System.Console.Write("\n(2)\n");
-            for (int i = 0; i < ((JArray)jarray_all).Count; i++)
-                api2(""+jarray_all[i]["member_id"], time_start, time_end);
-            
-            //==========================< API 3 >=================================
-            System.Console.Write("\n(3)\n");
-            for (int i = 0; i < ((JArray)jarray_all).Count; i++)
-                api3("" + jarray_all[i]["email"]);
-
-            //==========================< API 4 >==================================
-            System.Console.Write("\n(4)\n");
-            for (int i = 0; i < ((JArray)jarray_all).Count; i++)
-                api4("" + jarray_all[i]["member_id"], time_start, time_end);
-            //==========================< API 5 >==================================
-            System.Console.Write("\n(5)\n");
-            for (int i = 0; i < ((JArray)jarray_all).Count; i++)
-                api5("" + jarray_all[i]["member_id"], time_start, time_end);
-            //==========================< API 6 >==================================
-            System.Console.Write("\n(6)\n");
-            for (int i = 0; i < ((JArray)jarray_all).Count; i++)
-                api6("" + jarray_all[i]["member_id"], time_start, time_end);
-
-
-            // Force a garbage collection to occur for this
-            GC.Collect();
         } 
 
-        public void api7()
-        {
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/list_member_info", "", true,"");
-        }
+        
 
         public void api1(string member_id)
         {
@@ -120,7 +119,7 @@ namespace Runway_Moti
             //物件序列化
             strJson = JsonConvert.SerializeObject(work_out_info_i, Formatting.Indented);
             //輸出結果
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/WorkoutInfo/API/Services/Workout_info", strJson, true, member_id);
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/WorkoutInfo/API/Services/Workout_info", strJson,1, true, member_id);
 
         }
 
@@ -132,7 +131,7 @@ namespace Runway_Moti
             //物件序列化
             strJson = JsonConvert.SerializeObject(syn_member_fitness_record_i, Formatting.Indented);
             //輸出結果
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_fitness_record", strJson, true, member_id);
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_fitness_record", strJson,2, true, member_id);
 
         }
 
@@ -142,7 +141,7 @@ namespace Runway_Moti
             //物件序列化
             strJson = JsonConvert.SerializeObject(syn_member_info_i, Formatting.Indented);
             //輸出結果
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_info", strJson, false,"");
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_info", strJson,3, false,"");
         }
 
         public void api4(string member_id, string pedometer_sdatetime, string pedometer_edatetime)
@@ -153,7 +152,7 @@ namespace Runway_Moti
             //物件序列化
             strJson = JsonConvert.SerializeObject(syn_member_pedometer_record_i, Formatting.Indented);
             //輸出結果
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_pedometer_record", strJson, true, member_id);
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_pedometer_record", strJson,4, true, member_id);
 
         }
 
@@ -165,7 +164,7 @@ namespace Runway_Moti
             //物件序列化
             strJson = JsonConvert.SerializeObject(syn_member_info_weekly_record_i, Formatting.Indented);
             //輸出結果
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_info_weekly_record", strJson, true,member_id);
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_info_weekly_record", strJson,5, true,member_id);
 
         }
 
@@ -177,30 +176,33 @@ namespace Runway_Moti
             //物件序列化
             strJson = JsonConvert.SerializeObject(syn_member_aerobic_record_i, Formatting.Indented);
             //輸出結果
-            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_aerobic_record", strJson, true,member_id);
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_aerobic_record", strJson,6, true,member_id);
 
+        }
+        public void api7()
+        {
+            Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/list_member_info", "",7, true, "");
         }
 
         public void api8()
         {
-            Post("http://jmex-api-service.azurewebsites.net/jmex-api/Nctu/DownloadLessonInfo", "", true, "");
+            Post("http://jmex-api-service.azurewebsites.net/jmex-api/Nctu/DownloadLessonInfo", "",8, true, "");
         }
 
         public void api9()
         {
-            Post("http://jmex-api-service.azurewebsites.net/jmex-api/Nctu/DownloadLessonWorkoutInfo", "", true,"");
+            Post("http://jmex-api-service.azurewebsites.net/jmex-api/Nctu/DownloadLessonWorkoutInfo", "",9, true,"");
         }
 
 
-        public void Post(string url, string postData , Boolean isarray,string member_id)
+        public void Post(string url, string postData , int which_api,Boolean isarray,string member_id)
         {
             string responseFromServer;
 
             try
             {
-                System.Console.Write("\ninput:\n" + postData + "\n");
+                //System.Console.Write("\ninput:\n" + postData + "\n");
                 postData = "{\"data\":\"" + Data_process.aesEncryptBase64(postData, enc_key, enc_iv) + "\"}";
-                //System.Console.Write(postData + "\n");
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(url);
 
@@ -236,8 +238,6 @@ namespace Runway_Moti
                 responseFromServer = responseFromServer.Substring(1, responseFromServer.Length - 2);
 
                 string response_string = Data_process.aesDecryptBase64(responseFromServer, enc_key, enc_iv);
-
-                //System.Console.Write(response_string + "\n");
 
                 if (isarray)
                 {
@@ -279,28 +279,26 @@ namespace Runway_Moti
                         jarray_all = jarray;
                     }
 
-                    System.Console.Write("output:\n" + jarray + "\n");
+                    //System.Console.Write("output:\n" + jarray + "\n");
                 }
                 else
                 {
                     jobject = (JObject)JsonConvert.DeserializeObject(response_string);
-                    System.Console.Write("output:\n" + jobject + "\n");
+                    //System.Console.Write("output:\n" + jobject + "\n");
                 }
 
 
                 if (url == "http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_fitness_record")//api2
                 {
-                    //for (int i = 0; i < ((JArray)jarray).Count; i++)
-                    //    jarray[i]["member_id"] = "811250aa-ce69-424f-a756-499577a8eae9";
                     string pdata = "" + jarray;
                     
-                    System.Console.Write("input to Post_DB:\n" + pdata + "\n");
-                    Post_to_DB("http://140.113.199.75/api/test.php", pdata);
+                    //System.Console.Write("input to Post_DB:\n" + pdata + "\n");
+                    Post_to_DB("http://140.113.199.75/api/test.php", pdata , which_api);
 
                     Judge.judge_course(jarray_lesson,jarray_lesson_detail, jarray,member_id);//比對課程是否完成
                     
                 }
-                else if(url == "http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/list_member_info")//api0
+                else if(url == "http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/list_member_info")//api7
                 {
                     JArray ja = new JArray(); 
                     for (int i = 0; i < ((JArray)jarray).Count; i++)
@@ -311,41 +309,30 @@ namespace Runway_Moti
 
                     }
                     string pdata = "" + ja;
-                    System.Console.Write("input to Post_DB:\n" + pdata + "\n");
-                    Post_to_DB("http://140.113.199.75/api/test2.php", pdata);
+                    //System.Console.Write("input to Post_DB:\n" + pdata + "\n");
+                    Post_to_DB("http://140.113.199.75/api/test2.php", pdata , which_api);
                 }
-               
-                //SYN_MEMBER_INFO_OUTPUT_1 = Newtonsoft.Json.JsonConvert.DeserializeObject<SYN_MEMBER_INFO_OUTPUT>(response_string);
-                //string strJson2 = JsonConvert.SerializeObject(SYN_MEMBER_INFO_OUTPUT_1, Formatting.Indented);
-                //System.Console.Write(strJson2 + "\n");
-
-                //LIST_MEMBER_INFO_OUTPUT_all = Newtonsoft.Json.JsonConvert.DeserializeObject<LIST_MEMBER_INFO_OUTPUT>(response_string);
-                //string strJson2 = JsonConvert.SerializeObject(LIST_MEMBER_INFO_OUTPUT_all, Formatting.Indented);
-                //System.Console.Write(strJson2 + "\n");
 
                 // Clean up the streams.
                 reader.Close();
                 dataStream.Close();
                 response.Close();
 
-
-
             }
             catch (Exception ex)
             {
-                System.Console.Write("Post error:" + ex + "\n");
+                //System.Console.Write("Post error(API "+ which_api + "):" + ex + "\n");
+                Log.write_to_file("Post error(API "+ which_api + "):" + ex);
             }
         }
-        public void Post_to_DB(string url, string postData)
+        public void Post_to_DB(string url, string postData,int which_api)
         {
             string responseFromServer;
 
             try
             {
-                System.Console.Write("output Post_DB:\n");
-                //System.Console.Write("\nDB:\n" + postData + "\n");
-
-                //System.Console.Write(postData + "\n");
+                //System.Console.Write("output Post_DB:\n");
+ 
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(url);
 
@@ -377,8 +364,11 @@ namespace Runway_Moti
                 StreamReader reader = new StreamReader(dataStream);
                 // Read the content.
                 responseFromServer = reader.ReadLine();
-                System.Console.Write(responseFromServer + "\n");
-
+                //System.Console.Write(responseFromServer + "\n");
+                if (responseFromServer != "success")
+                {
+                    Log.write_to_file("Post to DB response error:"+responseFromServer);
+                }
                 reader.Close();
                 dataStream.Close();
                 response.Close();
@@ -388,7 +378,8 @@ namespace Runway_Moti
             }
             catch (Exception ex)
             {
-                System.Console.Write("Post to DB error:" + ex + "\n");
+                //System.Console.Write("Post to DB error:" + ex + "\n");
+                Log.write_to_file("Post to DB error(API " + which_api + "):" + ex);
             }
         }
 
