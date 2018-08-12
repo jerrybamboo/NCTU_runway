@@ -1,0 +1,4 @@
+2018-08-13(週一)  00:47:22
+Post to DB response error:Query Error: Array
+
+
