@@ -44,7 +44,7 @@ namespace Runway_Moti
 
 
         string strJson;
-        string date;
+        //string date;
         string time_start;
         string time_end;
 
@@ -57,10 +57,20 @@ namespace Runway_Moti
                 this.authStringEnc = authStringEnc;
                 this.enc_key = enc_key;
                 this.enc_iv = enc_iv;
-                date = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
-                time_start = date + " 00:00:00";
-                time_end = date + " 23:59:59";
+                //date = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+                //time_start = date + " 00:00:00";
+                //time_end = date + " 23:59:59";
 
+                DateTime dt = DateTime.Now.AddDays(-1);
+                DateTime dt2s = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
+                DateTime dt2e = new DateTime(dt.Year, dt.Month, dt.Day, 23, 59, 59);
+                DateTime dtutcs = TimeZoneInfo.ConvertTimeToUtc(dt2s);
+                DateTime dtutce = TimeZoneInfo.ConvertTimeToUtc(dt2e);
+
+                time_start = dtutcs.ToString("yyyy-MM-dd HH:mm:ss");
+                time_end = dtutce.ToString("yyyy-MM-dd HH:mm:ss");
+
+                
                 //==========================< API 7>==================================
                 //System.Console.Write("\n(7)\n");
                 api7();
@@ -82,6 +92,8 @@ namespace Runway_Moti
                 //System.Console.Write("\n(2)\n");
                 for (int i = 0; i < ((JArray)jarray_all).Count; i++)
                     api2("" + jarray_all[i]["member_id"], time_start, time_end);
+
+
 
                 //==========================< API 3 >=================================
                 //System.Console.Write("\n(3)\n");
@@ -290,6 +302,23 @@ namespace Runway_Moti
 
                 if (url == "http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_fitness_record")//api2
                 {
+                    for (int i = 0; i < ((JArray)jarray).Count; i++)
+                    {
+                        DateTime NewDate = DateTime.ParseExact("" + jarray[i]["fitness_sdatetime"], "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.AllowWhiteSpaces);
+                        TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                        DateTime taidt = TimeZoneInfo.ConvertTimeFromUtc(NewDate, info);
+                        //System.Console.Write("\n" + taidt.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                        DateTime NewDate2 = DateTime.ParseExact("" + jarray[i]["fitness_edatetime"], "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.AllowWhiteSpaces);
+                        DateTime taidt2 = TimeZoneInfo.ConvertTimeFromUtc(NewDate2, info);
+                        //System.Console.Write("\n" + taidt2.ToString("yyyy-MM-dd HH:mm:ss"));
+
+
+                        jarray[i]["fitness_sdatetime"] = taidt.ToString("yyyy-MM-dd HH:mm:ss");
+                        jarray[i]["fitness_edatetime"] = taidt2.ToString("yyyy-MM-dd HH:mm:ss");
+
+                    }
+
                     string pdata = "" + jarray;
                     
                     //System.Console.Write("input to Post_DB:\n" + pdata + "\n");

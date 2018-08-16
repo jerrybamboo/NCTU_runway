@@ -49,7 +49,7 @@ namespace ConsoleApplication2
                 // Wait for the user to hit <Enter>
                 while (true)
                 {
-                    Console.ReadLine();
+                    //Console.ReadLine();
                 }
                 
             }
@@ -64,8 +64,10 @@ namespace ConsoleApplication2
         {
             try
             {
-                //System.Console.Write("\n"+ DateTime.Now.ToString("yyyy-MM-dd(ddd)  HH:mm:ss") +"\n");
+                
+                //System.Console.Write("\nNow "+ DateTime.Now.ToString("yyyy-MM-dd(ddd)  HH:mm:ss") +"\n");
                 date_now = DateTime.Now.ToString("yyyy-MM-dd");
+
                 if (date_now != date_bf)
                 {
                     control.api_start(authStringEnc, enc_key, enc_iv);
@@ -78,5 +80,9 @@ namespace ConsoleApplication2
             }
 
         }
+
+        
+        
+
     }
 }
