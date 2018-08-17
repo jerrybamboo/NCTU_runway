@@ -1,0 +1,8 @@
+C:\Users\admin\Desktop\runway\encry\encry\bin\Debug\encry.exe.config
+C:\Users\admin\Desktop\runway\encry\encry\bin\Debug\encry.exe
+C:\Users\admin\Desktop\runway\encry\encry\bin\Debug\encry.pdb
+C:\Users\admin\Desktop\runway\encry\encry\bin\Debug\Newtonsoft.Json.dll
+C:\Users\admin\Desktop\runway\encry\encry\bin\Debug\Newtonsoft.Json.xml
+C:\Users\admin\Desktop\runway\encry\encry\obj\Debug\encry.csprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\runway\encry\encry\obj\Debug\encry.exe
+C:\Users\admin\Desktop\runway\encry\encry\obj\Debug\encry.pdb
