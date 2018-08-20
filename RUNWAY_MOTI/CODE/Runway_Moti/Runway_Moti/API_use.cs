@@ -57,9 +57,6 @@ namespace Runway_Moti
                 this.authStringEnc = authStringEnc;
                 this.enc_key = enc_key;
                 this.enc_iv = enc_iv;
-                //date = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
-                //time_start = date + " 00:00:00";
-                //time_end = date + " 23:59:59";
 
                 DateTime dt = DateTime.Now.AddDays(-1);
                 DateTime dt2s = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
@@ -129,7 +126,7 @@ namespace Runway_Moti
         {
             work_out_info_i.member_id = member_id;
             //物件序列化
-            strJson = JsonConvert.SerializeObject(work_out_info_i, Formatting.Indented);
+            strJson = JsonConvert.SerializeObject(work_out_info_i, Formatting.None);
             //輸出結果
             Post("http://sports.moti-wearable.com/nctu/DesktopModules/WorkoutInfo/API/Services/Workout_info", strJson,1, true, member_id);
 
@@ -141,7 +138,7 @@ namespace Runway_Moti
             syn_member_fitness_record_i.fitness_sdatetime = fitness_sdatetime;
             syn_member_fitness_record_i.fitness_edatetime = fitness_edatetime;
             //物件序列化
-            strJson = JsonConvert.SerializeObject(syn_member_fitness_record_i, Formatting.Indented);
+            strJson = JsonConvert.SerializeObject(syn_member_fitness_record_i, Formatting.None);
             //輸出結果
             Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_fitness_record", strJson,2, true, member_id);
 
@@ -151,7 +148,7 @@ namespace Runway_Moti
         {
             syn_member_info_i.email = email;
             //物件序列化
-            strJson = JsonConvert.SerializeObject(syn_member_info_i, Formatting.Indented);
+            strJson = JsonConvert.SerializeObject(syn_member_info_i, Formatting.None);
             //輸出結果
             Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_info", strJson,3, false,"");
         }
@@ -162,7 +159,7 @@ namespace Runway_Moti
             syn_member_pedometer_record_i.pedometer_sdatetime = pedometer_sdatetime;
             syn_member_pedometer_record_i.pedometer_edatetime = pedometer_edatetime;
             //物件序列化
-            strJson = JsonConvert.SerializeObject(syn_member_pedometer_record_i, Formatting.Indented);
+            strJson = JsonConvert.SerializeObject(syn_member_pedometer_record_i, Formatting.None);
             //輸出結果
             Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_pedometer_record", strJson,4, true, member_id);
 
@@ -174,7 +171,7 @@ namespace Runway_Moti
             syn_member_info_weekly_record_i.record_sdatetime = record_sdatetime;
             syn_member_info_weekly_record_i.record_edatetime = record_edatetime;
             //物件序列化
-            strJson = JsonConvert.SerializeObject(syn_member_info_weekly_record_i, Formatting.Indented);
+            strJson = JsonConvert.SerializeObject(syn_member_info_weekly_record_i, Formatting.None);
             //輸出結果
             Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_info_weekly_record", strJson,5, true,member_id);
 
@@ -186,7 +183,7 @@ namespace Runway_Moti
             syn_member_aerobic_record_i.aerobic_sdatetime_start = aerobic_sdatetime_start;
             syn_member_aerobic_record_i.aerobic_sdatetime_end = aerobic_sdatetime_end;
             //物件序列化
-            strJson = JsonConvert.SerializeObject(syn_member_aerobic_record_i, Formatting.Indented);
+            strJson = JsonConvert.SerializeObject(syn_member_aerobic_record_i, Formatting.None);
             //輸出結果
             Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_aerobic_record", strJson,6, true,member_id);
 

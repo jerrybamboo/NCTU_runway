@@ -41,7 +41,7 @@ namespace ConsoleApplication2
         {
             
             //將視窗隱藏起來
-            FreeConsole();
+            //FreeConsole();
             try
             {
                 //System.Console.Write("Don't close the program, this program is for MOTI");

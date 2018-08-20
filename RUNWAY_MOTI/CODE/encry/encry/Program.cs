@@ -26,40 +26,43 @@ namespace encry
 
         
         static JObject jo= new JObject();
-        static JArray ja = new JArray();
+        static JObject jo2 = new JObject();
 
         static JObject jobject = new JObject();
         static JArray jarray = new JArray();
-        static JArray jarray_all = new JArray();
-        static JArray jarray_lesson = new JArray();
-        static JArray jarray_lesson_detail = new JArray();
 
         static string enc;
         static string dec;
-        //string date;
         static string postData;
-        static string output;
         
         static void Main(string[] args)
         {
-            string ab = "92C101AB-70F8-40B4-B218-9B43D1DFDBF0";
+            //test->500 error , test2-> correct
             string test = "30801215-7648-4279-A479-105EC694DE42";
+            string test2 = "92C101AB-70F8-40B4-B218-9B43D1DFDBF0";
 
-            jo.Add(new JProperty("member_id", test));
+            //the id you want to test 
+            jo.Add(new JProperty("member_id", test2));
             jo.Add(new JProperty("fitness_sdatetime", "2018-08-15 16:00:00"));
             jo.Add(new JProperty("fitness_edatetime", "2018-08-16 15:59:59"));
 
-            System.Console.Write("input\n"+jo+"\n");
+            //output origin input
+            System.Console.Write("input origin\n"+jo+"\n");
 
-            enc = aesEncryptBase64("" + jo, enc_key, enc_iv);
-            System.Console.Write("enc\n" + enc + "\n");
+            //encrypt
+            enc = aesEncryptBase64(""+jo, enc_key, enc_iv);
 
+            //after encrypting
+            System.Console.Write("\nenc\n" + enc + "\n");
 
+            //check encrypt
             dec = aesDecryptBase64(enc, enc_key, enc_iv);
-            System.Console.Write("dec\n" + dec + "\n");
+            System.Console.Write("\ndec\n" + dec + "\n");
 
-            postData = "{\"data\":\"" + enc + "\"}";
-            System.Console.Write("\n\n" + postData + "\n");
+            jo2.Add(new JProperty("data", enc));
+
+            //convert JObject to string
+            postData = ""+jo2;
 
             Post("http://sports.moti-wearable.com/nctu/DesktopModules/MemberInfo/API/Services/syn_member_fitness_record", postData, 2, true, "");
             Console.ReadLine();
@@ -94,12 +97,6 @@ namespace encry
             return encrypt;
         }
 
-        /// <summary>
-        /// 字串解密(非對稱式)
-        /// </summary>
-        /// <param name="Source">解密前字串</param>
-        /// <param name="CryptoKey">解密金鑰</param>
-        /// <returns>解密後字串</returns>
         public static string aesDecryptBase64(string SourceStr, string CryptoKey, string CryptoIv)
         {
             string decrypt = "";
@@ -134,8 +131,8 @@ namespace encry
 
             try
             {
-                System.Console.Write("\ninput:\n" + postData + "\n");
-                //postData = "{\"data\":\"" + Data_process.aesEncryptBase64(postData, enc_key, enc_iv) + "\"}";
+                // Post input
+                System.Console.Write("\nPost input:\n" + postData + "\n");
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(url);
 
@@ -143,7 +140,6 @@ namespace encry
                 request.Method = "POST";
                 request.Headers.Add("Authorization", "Basic " + authStringEnc);
                 // Create POST data and convert it to a byte array.
-
                 byte[] byteArray = Encoding.UTF8.GetBytes(postData);
                 // Set the ContentType property of the WebRequest.
                 request.ContentType = "application/json";
@@ -167,21 +163,22 @@ namespace encry
                 StreamReader reader = new StreamReader(dataStream);
                 // Read the content.
                 responseFromServer = reader.ReadLine();
+                // Output response
                 System.Console.Write("\nres\n" + responseFromServer + "\n");
                 responseFromServer = responseFromServer.Substring(1, responseFromServer.Length - 2);
-
+                // To descrypt the response
                 string response_string = aesDecryptBase64(responseFromServer, enc_key, enc_iv);
-                System.Console.Write("\noutput\n"+response_string+"\n");
+
                 if (isarray)
                 {
                     jarray = (JArray)JsonConvert.DeserializeObject(response_string);
 
-                    System.Console.Write("output:\n" + jarray + "\n");
+                    System.Console.Write("\nPoat output:\n" + jarray + "\n");
                 }
                 else
                 {
                     jobject = (JObject)JsonConvert.DeserializeObject(response_string);
-                    System.Console.Write("output:\n" + jobject + "\n");
+                    System.Console.Write("\nPost output:\n" + jobject + "\n");
                 }
 
                 // Clean up the streams.
