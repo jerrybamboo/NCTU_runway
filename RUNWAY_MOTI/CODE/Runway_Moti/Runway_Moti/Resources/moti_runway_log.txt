@@ -1,3 +1,9 @@
+2018-08-20(週一)  16:00:25
+Post to DB response error:Query Error: Array
+
+2018-08-20(週一)  15:59:34
+Post to DB response error:Query Error: Array
+
 2018-08-20(週一)  15:42:43
 Post to DB response error:Query Error: Array
 
@@ -35,6 +41,8 @@ Post error(API 2):System.Net.WebException: 遠端伺服器傳回一個錯誤: (5
 Post error(API 2):System.Net.WebException: 遠端伺服器傳回一個錯誤: (500) 內部伺服器錯誤。
    於 System.Net.HttpWebRequest.GetResponse()
    於 Runway_Moti.API_use.Post(String url, String postData, Int32 which_api, Boolean isarray, String member_id) 於 C:\Users\admin\Desktop\2018_08_02_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\API_use.cs: 行 240
+
+
 
 
 
