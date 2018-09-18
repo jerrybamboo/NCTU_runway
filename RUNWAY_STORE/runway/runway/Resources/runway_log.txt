@@ -1,3 +1,4 @@
+2018-09-16(週日)  20:41:20  在提取您所要求的https://runway.nctu.edu.tw/api/check/0510726網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:無法解析遠端名稱: 'runway.nctu.edu.tw'
 2018-07-01(週日)  16:15:57  在提取您所要求的https://runway.nctu.edu.tw/api/check/0510726網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:遠端伺服器傳回一個錯誤: (500) 內部伺服器錯誤。
 2018-07-01(週日)  16:15:34  在提取您所要求的https://runway.nctu.edu.tw/api/check/0510726網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:遠端伺服器傳回一個錯誤: (500) 內部伺服器錯誤。
 2018-02-12(週一)  23:29:31  在提取您所要求的https://runway.nctu.edu.tw/api/check/0510720網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:無法解析遠端名稱: 'runway.nctu.edu.tw'
@@ -10,6 +11,7 @@
 2018-02-12(週一)  23:24:54  在提取您所要求的https://runway.nctu.edu.tw/api/check/0510726網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:無法解析遠端名稱: 'runway.nctu.edu.tw'
 2018-02-12(週一)  23:24:27  在提取您所要求的https://runway.nctu.edu.tw/api/check/0510726網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:無法解析遠端名稱: 'runway.nctu.edu.tw'
 2018-02-12(週一)  23:22:33  在提取您所要求的https://runway.nctu.edu.tw/api/check/0510726網頁時發生錯誤。請檢查您所鍵入的 URL 以及 Internet 連線，並再次嘗試。WebException:作業逾時
+
 
 
 

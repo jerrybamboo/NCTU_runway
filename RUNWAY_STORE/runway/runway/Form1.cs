@@ -645,8 +645,8 @@ namespace runway
             }//確認檔案內的日期是否與今日日期相同，"NO"則執行以下
             else
             {
-                num_39 = 40;//新的一天設置剩餘
-                num_49 = 20;
+                num_39 = 50;//新的一天設置剩餘
+                num_49 = 30;
 
                 // 檔案設定
                 FileStream outFile = new FileStream("..//..//Resources//runway_num.txt", FileMode.Create, FileAccess.Write);
