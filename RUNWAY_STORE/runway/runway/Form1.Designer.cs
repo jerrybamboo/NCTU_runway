@@ -52,6 +52,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.qu39 = new System.Windows.Forms.Label();
             this.qu49 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // timer1
@@ -306,6 +307,18 @@
             this.qu49.TabIndex = 1;
             this.qu49.Text = "qu49";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("標楷體", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(108, 263);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(164, 48);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "label2";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -314,6 +327,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1249, 682);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.textBox1);
@@ -369,6 +383,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label qu39;
         private System.Windows.Forms.Label qu49;
+        private System.Windows.Forms.Label label2;
     }
 }
 

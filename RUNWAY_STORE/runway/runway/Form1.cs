@@ -16,7 +16,8 @@ using System.IO;
 using System.Threading;
 
 using Newtonsoft.Json.Linq;
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace runway
 {
@@ -175,6 +176,8 @@ namespace runway
 
             sp_event.Visible = true;
             button4.Visible = true;
+
+            label2.Visible = false;//測試用，可隨意修改
             //------------------------------------------------------
             store_num(1);//read_or_write   1:讀取剩下的庫存  2:存入庫存量於檔案中
 
@@ -260,7 +263,7 @@ namespace runway
         public void Post(string url)
         {
             string responseFromServer;
-            
+            JObject postData = new JObject();
             try
             {
                 // Create a request using a URL that can receive a post. 
@@ -268,8 +271,12 @@ namespace runway
                 // Set the Method property of the request to POST.
                 request.Method = "POST";
                 // Create POST data and convert it to a byte array.
-                string postData = "{\"choose\":" + Convert.ToString(choose) + "}";
-                byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+                postData.Add(new JProperty("name", stu.userid));
+                postData.Add(new JProperty("choose", Convert.ToString(choose)));
+                
+                byte[] byteArray = Encoding.UTF8.GetBytes(""+postData);
+
+
                 // Set the ContentType property of the WebRequest.
                 request.ContentType = "application/json";
                 // Set the ContentLength property of the WebRequest.
@@ -304,6 +311,8 @@ namespace runway
 
 
                 timer2.Enabled = true;
+                if (forever_skip)//紀錄開啟特殊模式後領餐的人
+                    log("");
             }
             catch (Exception ex)
             {
@@ -502,35 +511,39 @@ namespace runway
             //----------------<runway_log.txt>-----------------
             string all_data = "";
 
-            // 先確定檔案存在
-            if (File.Exists("..//..//Resources//runway_log.txt"))
+            if (data != "")
             {
-                // 檔案設定
-                FileStream fileInput = new FileStream("..//..//Resources//runway_log.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
-                // 開啟檔案
-                StreamReader streamIn = new StreamReader(fileInput);
-
-                // 讀檔
-                while (!streamIn.EndOfStream)
+                // 先確定檔案存在
+                if (File.Exists("..//..//Resources//runway_log.txt"))
                 {
-                    all_data = all_data + streamIn.ReadLine();
-                    all_data = all_data + Environment.NewLine;
+                    // 檔案設定
+                    FileStream fileInput = new FileStream("..//..//Resources//runway_log.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                    // 開啟檔案
+                    StreamReader streamIn = new StreamReader(fileInput);
+
+                    // 讀檔
+                    while (!streamIn.EndOfStream)
+                    {
+                        all_data = all_data + streamIn.ReadLine();
+                        all_data = all_data + Environment.NewLine;
+                    }
+                    streamIn.Close();
                 }
-                streamIn.Close();
+
+                all_data = data + Environment.NewLine + all_data;
+
+                // 檔案設定
+                FileStream outFile = new FileStream("..//..//Resources//runway_log.txt", FileMode.Create, FileAccess.Write);
+
+                // 建立檔案流
+                StreamWriter streamOut = new StreamWriter(outFile);
+
+                // 寫檔
+                streamOut.WriteLine(date.Text + "  " + all_data);
+
+                streamOut.Close();
+
             }
-
-            all_data = data + Environment.NewLine + all_data;
-
-            // 檔案設定
-            FileStream outFile = new FileStream("..//..//Resources//runway_log.txt", FileMode.Create, FileAccess.Write);
-
-            // 建立檔案流
-            StreamWriter streamOut = new StreamWriter(outFile);
-
-            // 寫檔
-            streamOut.WriteLine(date.Text + "  " + all_data);
-
-            streamOut.Close();
 
 
 
@@ -645,8 +658,8 @@ namespace runway
             }//確認檔案內的日期是否與今日日期相同，"NO"則執行以下
             else
             {
-                num_39 = 50;//新的一天設置剩餘
-                num_49 = 30;
+                num_39 = 30;//新的一天設置剩餘
+                num_49 = 50;
 
                 // 檔案設定
                 FileStream outFile = new FileStream("..//..//Resources//runway_num.txt", FileMode.Create, FileAccess.Write);
