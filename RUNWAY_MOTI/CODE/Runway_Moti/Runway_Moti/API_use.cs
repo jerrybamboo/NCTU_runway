@@ -47,7 +47,12 @@ namespace Runway_Moti
         //string date;
         string time_start;
         string time_end;
-
+        int date_offset = 0;//-1為前一天
+        /*
+         notice:
+         
+         
+         */
         
         public void api_start(string authStringEnc, string enc_key , string enc_iv)
         {
@@ -58,7 +63,8 @@ namespace Runway_Moti
                 this.enc_key = enc_key;
                 this.enc_iv = enc_iv;
 
-                DateTime dt = DateTime.Now.AddDays(-1);
+
+                DateTime dt = DateTime.Now.AddDays(date_offset);
                 DateTime dt2s = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
                 DateTime dt2e = new DateTime(dt.Year, dt.Month, dt.Day, 23, 59, 59);
                 DateTime dtutcs = TimeZoneInfo.ConvertTimeToUtc(dt2s);
@@ -66,47 +72,49 @@ namespace Runway_Moti
 
                 time_start = dtutcs.ToString("yyyy-MM-dd HH:mm:ss");
                 time_end = dtutce.ToString("yyyy-MM-dd HH:mm:ss");
+                //time_start = dtutcs.ToString("2018-08-31 10:00:00");
+                //time_end = dtutce.ToString("2018-09-04 12:00:00");
 
-                
+
                 //==========================< API 7>==================================
-                //System.Console.Write("\n(7)\n");
+                System.Console.Write("\n(7)\n");
                 api7();
 
                 //==========================< API 8>==================================
-                //System.Console.Write("\n(8)\n");
+                System.Console.Write("\n(8)\n");
                 api8();
 
                 //==========================< API 9>==================================
-                //System.Console.Write("\n(9)\n");
+                System.Console.Write("\n(9)\n");
                 api9();
 
                 //==========================< API 1 >==================================
-                //System.Console.Write("\n(1)\n");
+                System.Console.Write("\n(1)\n");
 
                 for (int i = 0; i < ((JArray)jarray_all).Count; i++)
                     api1("" + jarray_all[i]["member_id"]);
                 //==========================< API 2 >==================================
-                //System.Console.Write("\n(2)\n");
+                System.Console.Write("\n(2)\n");
                 for (int i = 0; i < ((JArray)jarray_all).Count; i++)
                     api2("" + jarray_all[i]["member_id"], time_start, time_end);
 
 
 
                 //==========================< API 3 >=================================
-                //System.Console.Write("\n(3)\n");
+                System.Console.Write("\n(3)\n");
                 for (int i = 0; i < ((JArray)jarray_all).Count; i++)
                     api3("" + jarray_all[i]["email"]);
 
                 //==========================< API 4 >==================================
-                //System.Console.Write("\n(4)\n");
+                System.Console.Write("\n(4)\n");
                 for (int i = 0; i < ((JArray)jarray_all).Count; i++)
                     api4("" + jarray_all[i]["member_id"], time_start, time_end);
                 //==========================< API 5 >==================================
-                //System.Console.Write("\n(5)\n");
+                System.Console.Write("\n(5)\n");
                 for (int i = 0; i < ((JArray)jarray_all).Count; i++)
                     api5("" + jarray_all[i]["member_id"], time_start, time_end);
                 //==========================< API 6 >==================================
-                //System.Console.Write("\n(6)\n");
+                System.Console.Write("\n(6)\n");
                 for (int i = 0; i < ((JArray)jarray_all).Count; i++)
                     api6("" + jarray_all[i]["member_id"], time_start, time_end);
 
@@ -210,7 +218,7 @@ namespace Runway_Moti
 
             try
             {
-                //System.Console.Write("\ninput:\n" + postData + "\n");
+                System.Console.Write("\ninput:\n" + postData + "\n");
                 postData = "{\"data\":\"" + Data_process.aesEncryptBase64(postData, enc_key, enc_iv) + "\"}";
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(url);
@@ -288,12 +296,12 @@ namespace Runway_Moti
                         jarray_all = jarray;
                     }
 
-                    //System.Console.Write("output:\n" + jarray + "\n");
+                    System.Console.Write("output:\n" + jarray + "\n");
                 }
                 else
                 {
                     jobject = (JObject)JsonConvert.DeserializeObject(response_string);
-                    //System.Console.Write("output:\n" + jobject + "\n");
+                    System.Console.Write("output:\n" + jobject + "\n");
                 }
 
 
@@ -318,7 +326,7 @@ namespace Runway_Moti
 
                     string pdata = "" + jarray;
                     
-                    //System.Console.Write("input to Post_DB:\n" + pdata + "\n");
+                    System.Console.Write("input to Post_DB:\n" + pdata + "\n");
                     Post_to_DB("http://140.113.199.75/api/test.php", pdata , which_api);
 
                     Judge.judge_course(jarray_lesson,jarray_lesson_detail, jarray,member_id);//比對課程是否完成
@@ -335,7 +343,7 @@ namespace Runway_Moti
 
                     }
                     string pdata = "" + ja;
-                    //System.Console.Write("input to Post_DB:\n" + pdata + "\n");
+                    System.Console.Write("input to Post_DB:\n" + pdata + "\n");
                     Post_to_DB("http://140.113.199.75/api/test2.php", pdata , which_api);
                 }
 
@@ -347,7 +355,7 @@ namespace Runway_Moti
             }
             catch (Exception ex)
             {
-                //System.Console.Write("Post error(API "+ which_api + "):" + ex + "\n");
+                System.Console.Write("Post error(API "+ which_api + "):" + ex + "\n");
                 Log.write_to_file("Post error(API "+ which_api + "):" + ex);
             }
         }
@@ -357,7 +365,7 @@ namespace Runway_Moti
 
             try
             {
-                //System.Console.Write("output Post_DB:\n");
+                System.Console.Write("output Post_DB:\n");
  
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(url);
@@ -390,7 +398,7 @@ namespace Runway_Moti
                 StreamReader reader = new StreamReader(dataStream);
                 // Read the content.
                 responseFromServer = reader.ReadLine();
-                //System.Console.Write(responseFromServer + "\n");
+                System.Console.Write(responseFromServer + "\n");
                 if (responseFromServer != "success")
                 {
                     Log.write_to_file("Post to DB response error:"+responseFromServer);
@@ -404,7 +412,7 @@ namespace Runway_Moti
             }
             catch (Exception ex)
             {
-                //System.Console.Write("Post to DB error:" + ex + "\n");
+                System.Console.Write("Post to DB error:" + ex + "\n");
                 Log.write_to_file("Post to DB error(API " + which_api + "):" + ex);
             }
         }

@@ -101,9 +101,9 @@ namespace Runway_Moti
                 }
                 if (((JArray)finish_course).Count>0)
                 {
-                    //System.Console.Write("finish course(input to Post_DB):\n" + finish_course + "\n");
+                    System.Console.Write("finish course(input to Post_DB):\n" + finish_course + "\n");
 
-                    Post_to_DB("http://140.113.199.75/api/test3.php", ""+finish_course);
+                    //Post_to_DB("http://140.113.199.75/api/test3.php", ""+finish_course);
                 }
 
 

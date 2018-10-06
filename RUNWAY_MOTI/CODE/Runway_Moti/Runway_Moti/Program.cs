@@ -34,18 +34,18 @@ namespace ConsoleApplication2
         static string enc_key = "aSRWheHYjG2xTPsLG71qH0QVhpGiAeur";
         static string enc_iv = "B3XVa5pTQhi+aPyP";
         static API_use control = new API_use();
-        static string date_now;
-        static string date_bf;
+        //static string date_now;
+        //static string date_bf = "";
 
         static void Main(string[] args)
         {
             
             //將視窗隱藏起來
-            FreeConsole();
+            //FreeConsole();
             try
             {
                 //System.Console.Write("Don't close the program, this program is for MOTI");
-                Timer t = new Timer(TimerCallback, null, 0, 14400000);
+                Timer t = new Timer(TimerCallback, null, 0, 3600000);//1hr
                 // Wait for the user to hit <Enter>
                 while (true)
                 {
@@ -64,14 +64,21 @@ namespace ConsoleApplication2
         {
             try
             {
-                
-                //System.Console.Write("\nNow "+ DateTime.Now.ToString("yyyy-MM-dd(ddd)  HH:mm:ss") +"\n");
-                date_now = DateTime.Now.ToString("yyyy-MM-dd");
 
-                if (date_now != date_bf)
+                //System.Console.Write("\nNow "+ DateTime.Now.ToString("yyyy-MM-dd(ddd)  HH:mm:ss") +"\n");
+
+                /*
+                date_now = DateTime.Now.ToString("yyyy-MM-dd");
+                if (String.Compare(date_now, date_bf)!=0)
                 {
                     control.api_start(authStringEnc, enc_key, enc_iv);
                     date_bf = date_now;
+                }
+                */
+
+                if (String.Compare(DateTime.Now.ToString("HH"), "24") != 0 && String.Compare(DateTime.Now.ToString("HH"), "01") != 0 && String.Compare(DateTime.Now.ToString("HH"), "02") != 0)
+                {
+                    control.api_start(authStringEnc, enc_key, enc_iv);
                 }
             }
             catch (Exception ex)

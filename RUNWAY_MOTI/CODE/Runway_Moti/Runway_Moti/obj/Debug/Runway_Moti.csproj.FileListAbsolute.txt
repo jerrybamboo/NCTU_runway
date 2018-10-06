@@ -38,3 +38,11 @@ C:\Users\admin\Desktop\2018_08_17_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\bin\D
 C:\Users\admin\Desktop\2018_08_17_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\bin\Debug\Newtonsoft.Json.dll
 C:\Users\admin\Desktop\2018_08_17_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\bin\Debug\Newtonsoft.Json.xml
 C:\Users\admin\Desktop\2018_08_17_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\obj\Debug\Runway_Moti.csprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\2018_08_28_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\bin\Debug\Runway_Moti.exe.config
+C:\Users\admin\Desktop\2018_08_28_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\obj\Debug\Runway_Moti.exe
+C:\Users\admin\Desktop\2018_08_28_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\obj\Debug\Runway_Moti.pdb
+C:\Users\admin\Desktop\2018_08_28_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\bin\Debug\Runway_Moti.exe
+C:\Users\admin\Desktop\2018_08_28_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\bin\Debug\Runway_Moti.pdb
+C:\Users\admin\Desktop\2018_08_28_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\bin\Debug\Newtonsoft.Json.dll
+C:\Users\admin\Desktop\2018_08_28_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\bin\Debug\Newtonsoft.Json.xml
+C:\Users\admin\Desktop\2018_08_28_RUNWAY_MOTI\CODE\Runway_Moti\Runway_Moti\obj\Debug\Runway_Moti.csprojResolveAssemblyReference.cache
