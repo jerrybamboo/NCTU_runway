@@ -116,7 +116,7 @@ namespace runway
             //max_x = 1536;
             //max_y = 801;
 
-            label1.Text = "你的等級已達5級，可選擇39元早餐或49元早餐";
+            label1.Text = "可選擇39元早餐或49元早餐!!!";
             date.Text = DateTime.Now.ToString("yyyy-MM-dd(ddd)  HH:mm:ss");
             command.Text = "請輸入學號";
             except.Text = "*錯誤:連線失敗";
@@ -133,7 +133,7 @@ namespace runway
             date.Location = new Point(max_x - 400, 100);
             button1.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5 + 100));
             button2.Location = new Point((int)(max_x / 2 + 70), (int)(max_y * 3 / 5 + 100));
-            label1.Location = new Point((int)(max_x / 4), (int)(max_y * 3 / 5));
+            label1.Location = new Point((int)(max_x / 3), (int)(max_y * 3 / 5));
 
             command.Location = user.Location;
             textBox1.Location = new Point((int)(max_x * 2 / 5), (int)(max_y * 3 / 5 + 50));
@@ -273,7 +273,6 @@ namespace runway
                 // Create POST data and convert it to a byte array.
                 postData.Add(new JProperty("name", stu.userid));
                 postData.Add(new JProperty("choose", Convert.ToString(choose)));
-                
                 byte[] byteArray = Encoding.UTF8.GetBytes(""+postData);
 
 
